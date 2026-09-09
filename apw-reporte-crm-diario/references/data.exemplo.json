@@ -1,0 +1,41 @@
+{
+ "date":"2026-06-16",
+ "destaque_dia":"Bruna Matos — 1 Stage 3 (L1354714), 1 reproposta (L886771), 36 atividades (8 substantivas · 22%).",
+ "destaque_semana":"Gisele Tognolo — 4 Stage 1, 3 repropostas, 68 atividades (17 substantivas · 25%).",
+ "directors":{
+  "Aline Felix":{"s1":0,"s3":1,"rep":0,"tot":11,"totD":5,"sub":7,"subD":2},
+  "Aline Sanzi":{"s1":0,"s3":0,"rep":1,"tot":51,"totD":41,"sub":1,"subD":0},
+  "Andressa Bueno":{"s1":1,"s3":0,"rep":1,"tot":29,"totD":7,"sub":3,"subD":1},
+  "Bruna Matos":{"s1":1,"s3":1,"rep":1,"tot":49,"totD":36,"sub":11,"subD":8},
+  "Carolina Brentzel":{"s1":4,"s3":0,"rep":0,"tot":38,"totD":17,"sub":10,"subD":3},
+  "Daiane dos Santos":{"s1":1,"s3":0,"rep":0,"tot":31,"totD":13,"sub":7,"subD":3},
+  "Fabio Boturao":{"s1":0,"s3":0,"rep":1,"tot":25,"totD":22,"sub":3,"subD":3},
+  "Felipe Porto":{"s1":1,"s3":0,"rep":1,"tot":18,"totD":6,"sub":12,"subD":5},
+  "Gisele Tognolo":{"s1":4,"s3":0,"rep":3,"tot":68,"totD":29,"sub":17,"subD":5},
+  "Jose Daniel Ramos":{"s1":0,"s3":0,"rep":0,"tot":11,"totD":4,"sub":3,"subD":0},
+  "Kamilla Rosa":{"s1":1,"s3":0,"rep":3,"tot":28,"totD":14,"sub":3,"subD":0},
+  "Regina Silveira":{"s1":0,"s3":0,"rep":1,"tot":12,"totD":4,"sub":2,"subD":0},
+  "Roana Reboredo":{"s1":4,"s3":0,"rep":1,"tot":54,"totD":14,"sub":5,"subD":2},
+  "Victoria Navarro":{"s1":1,"s3":0,"rep":1,"tot":32,"totD":16,"sub":5,"subD":1}
+ },
+ "dia":{
+  "s1":[["Gisele Tognolo","L1244344"],["Roana Reboredo","L1353584"],["Carolina Brentzel","L973841"]],
+  "s3":[["Bruna Matos","L1354714"],["Aline Felix","L360532"]],
+  "rep":[["Bruna Matos","L886771"],["Regina Silveira","L1042534"],["Felipe Porto","L402166"],["Fabio Boturao","L955938"],["Andressa Bueno","L972340"],["Roana Reboredo","L924553"]]
+ },
+ "mov":{
+  "Bruna Matos":{"s1":[["L1354714",0]],"s3":[["L1354714",1]],"rep":[["L886771",1]]},
+  "Regina Silveira":{"rep":[["L1042534",1]]},
+  "Kamilla Rosa":{"s1":[["L1277202",0]],"rep":[["L945282",0],["L883674",0],["L1228802",0]]},
+  "Felipe Porto":{"s1":[["L972015",0]],"rep":[["L402166",1]]},
+  "Fabio Boturao":{"rep":[["L955938",1]]},
+  "Aline Sanzi":{"rep":[["L927194",0]]},
+  "Victoria Navarro":{"s1":[["L955494",0]],"rep":[["L1229545",0]]},
+  "Daiane dos Santos":{"s1":[["L1258851",0]]},
+  "Gisele Tognolo":{"s1":[["L1244344",1],["L1255985",0],["L1265143",0],["L1354709",0]],"rep":[["L1197804",0],["L1218089",0],["L922004",0]]},
+  "Andressa Bueno":{"s1":[["L1256790",0]],"rep":[["L972340",1]]},
+  "Roana Reboredo":{"s1":[["L1353584",1],["L1256160",0],["L977424",0],["L1255383",0]],"rep":[["L924553",1]]},
+  "Carolina Brentzel":{"s1":[["L973841",1],["L1244948",0],["L1335289",0],["L954092",0]]},
+  "Aline Felix":{"s3":[["L360532",1]]}
+ }
+}
