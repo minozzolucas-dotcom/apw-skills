@@ -1,0 +1,15 @@
+# Dados sensíveis do CRM — nunca commitar
+*.json
+harvest*.json
+apw_pace_harvest_*.json
+apw_pace_dashboard*.html
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
