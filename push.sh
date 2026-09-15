@@ -1,28 +1,40 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# ============================================================
+# apw-skills / push.sh
+# Commit + push em um comando só.
+# ============================================================
+# Uso:
+#   ./push.sh                              → mensagem = timestamp automático
+#   ./push.sh "adiciona apw-nova-skill"    → mensagem sua
+# ============================================================
 set -e
 
-REPO="https://github.com/minozzolucas-dotcom/apw-skills.git"
-TMPDIR=$(mktemp -d)
-ZIP="$HOME/Downloads/skills-apw-crm-20260909.zip"
+# vai para a pasta do próprio script (funciona chamado de qualquer lugar)
+cd "$(dirname "$0")"
 
-echo ">>> Clonando repositório..."
-git clone "$REPO" "$TMPDIR/apw-skills"
-cd "$TMPDIR/apw-skills"
+# mensagem opcional; default = timestamp
+MSG="${1:-atualização automática $(date '+%Y-%m-%d %H:%M')}"
 
-echo ">>> Descompactando skills..."
-unzip -o "$ZIP" -d /tmp/skills-src
-
-echo ">>> Copiando arquivos..."
-cp -r /tmp/skills-src/skills-apw-crm/* .
-
-echo ">>> Commit e push..."
+# adiciona tudo (respeitando o .gitignore)
 git add -A
-git commit -m "feat: skills APW CRM — reporte diário e calor do dia (09/09/2026)
 
-- apw-reporte-crm-diario: build_report.py (formato oficial, 14 diretores) + collection_snippet.js
-- apw-calor-do-dia: SKILL.md
-- README com estrutura, instruções e tabela dos 14 GUIDs"
-git push origin main
+# se nada mudou, não commita
+if git diff --cached --quiet; then
+  echo "✓ Nada mudou. Nada a commitar."
+  exit 0
+fi
 
-echo ""
-echo "✅ Push concluído! Veja em: https://github.com/minozzolucas-dotcom/apw-skills"
+# resumo do que vai commitar (útil ver antes de subir)
+echo "--------------------------------------------------------"
+echo "Alterações que vão para o commit:"
+echo "--------------------------------------------------------"
+git diff --cached --stat
+echo "--------------------------------------------------------"
+
+git commit -m "$MSG"
+
+# push (usa o remote padrão e a branch atual)
+BRANCH="$(git rev-parse --abbrev-ref HEAD)"
+git push origin "$BRANCH"
+
+echo "✓ Enviado para origin/$BRANCH: \"$MSG\""

@@ -1,0 +1,116 @@
+# ============================================================
+# apw-skills — .gitignore
+# ============================================================
+
+# ---------- Empacotamento e distribuição ----------
+dist/
+build/
+*.zip
+*.tar.gz
+
+# ---------- Sistema operacional ----------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+Desktop.ini
+
+# ---------- Python ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- Node / JS (caso alguma skill use) ----------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ---------- Editores e IDEs ----------
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# ---------- Segredos e credenciais ----------
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+secrets.json
+credentials.json
+tokens.json
+service-account.json
+
+# ---------- Dados sensíveis / operacionais ----------
+# Nunca commitar dumps do CRM, planilhas com valores de deal,
+# contratos, comprovantes, PDFs de fornecedor.
+uploads/
+outputs/
+downloads/
+tmp/
+*.tmp
+*.log
+*.log.*
+
+# Dados do Dynamics 365 e M-Files exportados
+crm_data/
+dynamics_export/
+mfiles_export/
+reporte_*.json
+calor_*.json
+
+# Planilhas e documentos que não são referência da skill
+*.xlsx
+*.xlsm
+*.xlsb
+*.pdf
+*.docx
+*.doc
+!references/**/*.xlsx
+!references/**/*.pdf
+!references/**/*.docx
+# ↑ a exceção acima permite commitar planilhas/PDFs que estejam
+#   em references/ dentro de uma skill (templates oficiais etc.).
+
+# ---------- Bases pesadas ----------
+# Base Anatel de ERBs, planilhas nacionais etc. — sempre local
+mapaerbs*.zip
+mapaerbs*.csv
+anatel_*.csv
+base_erbs*.csv
+*.parquet
+
+# ---------- Arquivos grandes (limite prático) ----------
+*.mov
+*.mp4
+*.mkv
+*.iso
+*.dmg
+
+# ---------- Backups ----------
+*.bak
+*.backup
+*.orig
+*~
+
+# ---------- Miscelânea ----------
+.DS_Store
+.cache/
+.claude/
