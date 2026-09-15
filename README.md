@@ -49,7 +49,8 @@ O `push.sh` só commita se houver mudança e faz o `push` para `origin/main`.
 | [apw-calor-do-dia](./apw-calor-do-dia) | Reporte interno cruzando o que moveu de estágio no dia com o conteúdo das atividades. Radar de "calor" e qualificações com bandeira. |
 | [apw-diretor-pace-score](./apw-diretor-pace-score) | Dashboard de pace dos 14 diretores via snippets Dynamics 365 (stages + stage owners + audit). Sub-status Early Stage vs Conversão. |
 | [apw-crm-key-notes-writer](./apw-crm-key-notes-writer) | Gravação de Key Notes / Investment Opportunity em oportunidades do Dynamics 365; escolha e link da Pricing Option; processamento em lote via planilha de submission. |
-| [apw-stage7-sub](./apw-stage7-sub) | E-mail de subida do deal de Stage 7 (LOI recebida) para Stage 8 (Submission), endereçado ao jurídico interno (Michelle, Anderson, Márcia Sena; cc Diogo). |
+| [apw-stage7-sub](./apw-stage7-sub) | E-mail de subida da operação de Stage 7 (LOI recebida) para Stage 8 (Submission), endereçado ao jurídico interno (Michelle, Anderson, Márcia Sena; cc Diogo). |
+| [apw-proposta-comercial](./apw-proposta-comercial) | Propostas comerciais HTML de Cessão de Direitos Creditórios (condomínios) e Direito Real de Superfície (PF/PJ/terrenos). Enquadramento da APW como veículo de investimento com lógica de seguradora; zero anglicismos; neutralidade entre opções. |
 
 ---
 
@@ -93,7 +94,6 @@ Skills que rodam hoje no ambiente e serão trazidas para o repo conforme forem e
 - `apw-counterparty-assessment` — deck de counterparty assessment (marca Radius/APW)
 
 ### Propostas e dossiês para cliente
-- `apw-proposta-comercial` — propostas HTML de Cessão de Direitos Creditórios e DRS
 - `apw-dossie-cessao` — material informativo de Cessão (condomínios)
 - `apw-dossie-drs` — material informativo de DRS (proprietários PF/PJ)
 
