@@ -93,9 +93,13 @@ calor_*.json
 # Base Anatel de ERBs, planilhas nacionais etc. — sempre local
 mapaerbs*.zip
 mapaerbs*.csv
+anatel_*
 anatel_*.csv
+anatel_*.csv.gz
 base_erbs*.csv
 *.parquet
+*.csv.gz
+*.tsv.gz
 
 # ---------- Arquivos grandes (limite prático) ----------
 *.mov

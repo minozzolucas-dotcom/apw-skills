@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+  Template do dashboard forense — APW Opportunity Activity Forensics.
+  Substituir os placeholders {{...}} pelo conteúdo extraído.
+  Estética dark editorial. Tudo inline, um arquivo só.
+  Ordem das seções: o que está acontecendo > timeline > mapa político >
+  red flags (com dados contraditórios dentro) > deriva de preço >
+  blind spot > diagnóstico + próximo passo (em destaque, fecha o doc).
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forensics — {{L_CODE}} {{OPP_NAME}}</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2230; --border:#2d333b;
+    --text:#e6edf3; --muted:#8b949e; --accent:#4e89bd;
+    --crit:#f85149; --warn:#d29922; --ok:#3fb950;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text);
+    font-family:-apple-system,"Segoe UI",Arial,sans-serif; line-height:1.6;
+    padding:32px 20px; max-width:1100px; margin:0 auto; }
+  header { border-bottom:1px solid var(--border); padding-bottom:20px; margin-bottom:28px; }
+  h1 { font-size:1.5rem; font-weight:700; }
+  h1 .lcode { color:var(--accent); font-family:var(--mono); }
+  .verdict { color:var(--muted); margin-top:6px; font-size:1.05rem; }
+  .meta { margin-top:12px; font-size:.85rem; color:var(--muted); font-family:var(--mono); }
+  .meta span { margin-right:16px; }
+  section { margin-bottom:32px; }
+  h2 { font-size:1.05rem; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--accent); margin-bottom:14px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:16px 18px; margin-bottom:12px; }
+  .tl-item { display:flex; gap:14px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .tl-item:last-child { border-bottom:none; }
+  .tl-date { font-family:var(--mono); font-size:.8rem; color:var(--accent);
+    white-space:nowrap; min-width:96px; }
+  .tl-body { flex:1; }
+  .tl-owner { font-size:.74rem; color:var(--muted); }
+  .tl-evidence { font-style:italic; color:var(--muted); border-left:2px solid var(--border);
+    padding-left:10px; margin-top:4px; font-size:.88rem; }
+  .tl-tag { font-size:.68rem; font-family:var(--mono); padding:1px 7px; border-radius:99px; margin-left:6px; }
+  .tl-tag.dead { background:rgba(248,81,73,.15); color:var(--crit); }
+  .tl-tag.alive { background:rgba(63,185,80,.15); color:var(--ok); }
+  .person { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:14px 16px; margin-bottom:10px; }
+  table { width:100%; border-collapse:collapse; font-size:.88rem; }
+  th,td { text-align:left; padding:8px 10px; border:1px solid var(--border); vertical-align:top; }
+  th { background:var(--panel-2); color:var(--accent); font-size:.76rem; text-transform:uppercase; }
+  td.fact { font-weight:700; }
+  .person .name { font-weight:700; }
+  .person .role { color:var(--muted); font-size:.84rem; margin-bottom:4px; }
+  .tag { display:inline-block; font-size:.68rem; padding:2px 8px; border-radius:99px;
+    font-family:var(--mono); margin-left:6px; }
+  .tag.blocker { background:rgba(248,81,73,.15); color:var(--crit); }
+  .tag.decisor { background:rgba(78,137,189,.18); color:var(--accent); }
+  .tag.unblocker { background:rgba(63,185,80,.15); color:var(--ok); }
+  .tag.collective { background:rgba(139,148,158,.15); color:var(--muted); }
+  .flag { display:flex; gap:12px; padding:12px 14px; border-radius:8px; margin-bottom:10px;
+    border:1px solid var(--border); }
+  .flag.crit { background:rgba(248,81,73,.08); border-color:var(--crit); }
+  .flag.warn { background:rgba(210,153,34,.08); border-color:var(--warn); }
+  .flag.ok   { background:rgba(63,185,80,.08); border-color:var(--ok); }
+  .flag .dot { font-size:1.1rem; }
+  .flag .evidence { font-style:italic; color:var(--muted); font-size:.85rem; margin-top:4px; }
+  .price-step { display:flex; gap:12px; align-items:baseline; padding:6px 0;
+    border-bottom:1px dashed var(--border); }
+  .price-step:last-child { border-bottom:none; }
+  .price-step .val { font-family:var(--mono); font-weight:700; min-width:150px; }
+  .price-step .val.dead { color:var(--crit); text-decoration:line-through; }
+  .price-step .when { font-size:.8rem; color:var(--muted); }
+  .diag { background:var(--panel-2); border-left:3px solid var(--accent);
+    padding:18px 20px; border-radius:0 8px 8px 0; }
+  .diag p { margin-bottom:8px; }
+  .next-steps li { margin-left:20px; margin-bottom:8px; }
+  footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--border);
+    color:var(--muted); font-size:.75rem; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Forensics — <span class="lcode">{{L_CODE}}</span> {{OPP_NAME}}</h1>
+  <div class="verdict">{{ONE_LINE_VERDICT}}</div>
+  <div class="meta">
+    <span>📅 {{FIRST_DATE}} → {{LAST_DATE}}</span>
+    <span>📋 {{ACTIVITY_COUNT}} atividades</span>
+    <span>👥 {{OWNER_COUNT}} donos</span>
+  </div>
+</header>
+
+<section>
+  <h2>O que realmente está acontecendo</h2>
+  <div class="card">{{WHATS_HAPPENING}}</div>
+</section>
+
+<section>
+  <h2>Linha do tempo reconstruída</h2>
+  <div class="card">
+    <!-- repetir .tl-item por marco. Usar .tl-tag dead/alive nas viradas. -->
+    <div class="tl-item">
+      <div class="tl-date">{{DATE}}</div>
+      <div class="tl-body">
+        <div>{{EVENT}}</div>
+        <div class="tl-owner">{{OWNER}}</div>
+        <div class="tl-evidence">"{{EVIDENCE}}"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Mapa político de contrapartes</h2>
+  <!-- repetir .person. tag: blocker / decisor / unblocker / collective -->
+  <div class="person">
+    <div class="name">{{PERSON_NAME}} <span class="tag blocker">TRAVA</span></div>
+    <div class="role">{{PERSON_ORG}} · {{PERSON_ROLE}}</div>
+    <div>{{PERSON_PROFILE}}</div>
+  </div>
+</section>
+
+<section>
+  <h2>Divergências de dados</h2>
+  <table>
+    <tr><th>Fato</th><th>Fonte A</th><th>Fonte B</th><th>Fonte C</th><th>Implicação</th></tr>
+    <!-- repetir <tr> por divergência -->
+    <tr><td class="fact">{{FACT}}</td><td>{{SRC_A}}</td><td>{{SRC_B}}</td><td>{{SRC_C}}</td><td>{{IMPLICATION}}</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Red flags</h2>
+  <!-- classes: crit / warn / ok. Dados contraditórios entram aqui. -->
+  <div class="flag crit">
+    <div class="dot">🔴</div>
+    <div>
+      <strong>{{FLAG_TITLE}}</strong>
+      <div class="evidence">"{{FLAG_EVIDENCE}}" — {{FLAG_SOURCE}}</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Deriva de preço</h2>
+  <div class="card">
+    <!-- repetir .price-step em ordem cronológica. .val.dead p/ valores rejeitados. -->
+    <div class="price-step">
+      <span class="val">{{PRICE}}</span>
+      <span class="when">{{PRICE_DATE}} — {{PRICE_CONTEXT}}</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Diagnóstico e próximo passo</h2>
+  <div class="diag">
+    <p><strong>Estágio real:</strong> {{REAL_STAGE}}</p>
+    <p><strong>Bloqueador raiz:</strong> {{ROOT_BLOCKER}}</p>
+    <p><strong>Provável blind spot:</strong> {{BLIND_SPOT}}</p>
+    <p style="margin-top:12px;"><strong>Próximos passos:</strong></p>
+    <ol class="next-steps">
+      <li>{{NEXT_STEP}}</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  Gerado por apw-opp-activity-forensics · Análise forense de atividades do Dynamics 365 · APW Brasil<br>
+  Documento de uso interno. Não distribuir.
+</footer>
+
+</body>
+</html>

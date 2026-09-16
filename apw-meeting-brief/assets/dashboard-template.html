@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<!--
+  Template do dashboard de briefing de reunião — APW Meeting Brief.
+  Reflete a VERSÃO INTERNA (todos os eixos). Substituir placeholders {{...}}.
+  Estética dark editorial, consistente com apw-opp-activity-forensics.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Briefing — {{MEETING_NAME}}</title>
+<style>
+  :root {
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2230; --border:#2d333b;
+    --text:#e6edf3; --muted:#8b949e; --accent:#4e89bd;
+    --crit:#f85149; --warn:#d29922; --ok:#3fb950; --sensitive:#a371f7;
+    --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { background:var(--bg); color:var(--text);
+    font-family:-apple-system,"Segoe UI",Arial,sans-serif; line-height:1.6;
+    padding:32px 20px; max-width:1100px; margin:0 auto; }
+  header { border-bottom:1px solid var(--border); padding-bottom:20px; margin-bottom:28px; }
+  h1 { font-size:1.5rem; font-weight:700; }
+  .verdict { color:var(--muted); margin-top:8px; font-size:1.04rem; }
+  .meta { margin-top:12px; font-size:.85rem; color:var(--muted); }
+  .meta div { margin-bottom:2px; }
+  section { margin-bottom:30px; }
+  h2 { font-size:1.05rem; text-transform:uppercase; letter-spacing:.06em;
+    color:var(--accent); margin-bottom:14px; padding-bottom:6px; border-bottom:1px solid var(--border); }
+  .card { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:14px 16px; margin-bottom:10px; }
+  .decision { display:flex; gap:10px; padding:10px 0; border-bottom:1px solid var(--border); }
+  .decision:last-child { border-bottom:none; }
+  .decision .check { color:var(--ok); font-size:1.05rem; }
+  .decision .ev { font-style:italic; color:var(--muted); font-size:.85rem; margin-top:3px; }
+  table { width:100%; border-collapse:collapse; font-size:.9rem; }
+  th,td { text-align:left; padding:8px 10px; border:1px solid var(--border); vertical-align:top; }
+  th { background:var(--panel-2); color:var(--accent); font-size:.76rem; text-transform:uppercase; }
+  td.owner { font-family:var(--mono); white-space:nowrap; }
+  td.due { font-family:var(--mono); white-space:nowrap; color:var(--accent); }
+  .side { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:14px 16px; margin-bottom:10px; }
+  .side .who { font-weight:700; }
+  .side .who .org { color:var(--muted); font-weight:400; font-size:.85rem; }
+  .side .lbl { font-size:.72rem; text-transform:uppercase; color:var(--accent);
+    font-family:var(--mono); margin-top:8px; }
+  .risk { display:flex; gap:10px; padding:11px 14px; border-radius:8px; margin-bottom:9px;
+    border:1px solid var(--border); }
+  .risk.crit { background:rgba(248,81,73,.08); border-color:var(--crit); }
+  .risk.warn { background:rgba(210,153,34,.08); border-color:var(--warn); }
+  .num-grid { display:flex; flex-wrap:wrap; gap:10px; }
+  .num { background:var(--panel); border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; min-width:150px; }
+  .num .v { font-family:var(--mono); font-weight:700; font-size:1.15rem; color:var(--accent); }
+  .num .l { font-size:.78rem; color:var(--muted); }
+  .sensitive-box { background:rgba(163,113,247,.07); border:1px solid var(--sensitive);
+    border-radius:8px; padding:14px 16px; }
+  .sensitive-box .tag { display:inline-block; font-size:.68rem; font-family:var(--mono);
+    background:rgba(163,113,247,.18); color:var(--sensitive); padding:2px 8px;
+    border-radius:99px; margin-bottom:8px; }
+  .gloss { font-family:var(--mono); font-size:.84rem; }
+  .gloss .from { color:var(--crit); }
+  .gloss .to { color:var(--ok); }
+  footer { margin-top:40px; padding-top:16px; border-top:1px solid var(--border);
+    color:var(--muted); font-size:.74rem; text-align:center; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Briefing — {{MEETING_NAME}}</h1>
+  <div class="verdict">{{ONE_LINE_VERDICT}}</div>
+  <div class="meta">
+    <div>👥 {{PARTICIPANTS}}</div>
+    <div>🎯 {{OBJECTIVE}}</div>
+    <div>📅 {{DATE}}</div>
+  </div>
+</header>
+
+<section>
+  <h2>Decisões tomadas</h2>
+  <div class="card">
+    <!-- repetir .decision -->
+    <div class="decision">
+      <div class="check">✓</div>
+      <div>
+        <div>{{DECISION}}</div>
+        <div class="ev">"{{EVIDENCE}}"</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Plano de ação</h2>
+  <table>
+    <tr><th>Ação</th><th>Responsável</th><th>Prazo</th><th>Quem assumiu</th></tr>
+    <!-- repetir <tr> -->
+    <tr><td>{{ACTION}}</td><td class="owner">{{OWNER}}</td><td class="due">{{DUE}}</td><td>{{SOURCE}}</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Mapa político / de interesses</h2>
+  <!-- repetir .side por lado/pessoa -->
+  <div class="side">
+    <div class="who">{{NAME}} <span class="org">— {{ORG}}, {{LADO}}</span></div>
+    <div class="lbl">Dor</div><div>{{DOR}}</div>
+    <div class="lbl">Agenda</div><div>{{AGENDA}}</div>
+    <div class="lbl">Resistência / limitação</div><div>{{RESISTENCIA}}</div>
+  </div>
+</section>
+
+<section>
+  <h2>Riscos e pontos em aberto</h2>
+  <!-- risk.crit / risk.warn -->
+  <div class="risk crit">
+    <div>🔴</div>
+    <div><strong>{{RISK_TITLE}}</strong><div style="color:var(--muted);font-size:.86rem;">{{RISK_DESC}}</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Números e fatos citados</h2>
+  <div class="num-grid">
+    <!-- repetir .num -->
+    <div class="num"><div class="v">{{VALUE}}</div><div class="l">{{LABEL}}</div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Trechos sensíveis</h2>
+  <div class="sensitive-box">
+    <span class="tag">INTERNO APW — NÃO COMPARTILHAR</span>
+    <!-- conteúdo sensível: off the record, fraquezas, leitura política -->
+    <p>{{SENSITIVE_CONTENT}}</p>
+  </div>
+</section>
+
+<section>
+  <h2>Glossário — correções de transcrição</h2>
+  <div class="card gloss">
+    <!-- repetir linha -->
+    <div><span class="from">{{ASR_TERM}}</span> → <span class="to">{{CORRECT_TERM}}</span> · {{NOTE}}</div>
+  </div>
+</section>
+
+<footer>
+  Gerado por apw-meeting-brief · Briefing executivo de reunião · APW Brasil<br>
+  Versão interna — contém trechos sensíveis. Não distribuir à contraparte.
+</footer>
+
+</body>
+</html>

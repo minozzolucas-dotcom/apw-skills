@@ -1,6 +1,6 @@
 ---
 name: apw-proposta-comercial
-description: Gera propostas comerciais HTML state-of-the-art para a APW Brasil — Cessão de Direitos Creditórios (condomínios) e Direito Real de Superfície (PF/PJ/terrenos). Use SEMPRE que o Lucas mencionar "proposta APW", "proposta para cliente", "proposta de cessão", "proposta DRS", "proposta condomínio", "rodar proposta para operação Lxxxx", "rodar proposta para deal Lxxxx", "fazer proposta de torre", "fechar operação", "fechar deal", "convencer condomínio", "convencer cliente APW", ou colar dados de operação (código L, cedente, operadora, aluguel, valores, prazos) pedindo material para enviar. Cobre todo o pipeline — perguntas estratégicas de persuasão, coleta e validação de inputs, estimativa de aluguel via IGP-M, cálculos financeiros internos (TIR, VP, spread sobre Selic, teste Tesouro, cenários de saída), narrativa persuasiva com tom de par/expert, identidade visual APW oficial, e resumo de envio. Enquadramento obrigatório da APW: veículo de investimento em recebíveis com lógica de seguradora (portfólio de milhares de contratos) — nunca "lease aggregator". Regras de ouro: zero anglicismos no texto visível, neutralidade absoluta entre opções (jamais recomendar uma).
+description: Gera propostas comerciais HTML state-of-the-art para a APW Brasil — Cessão de Direitos Creditórios (condomínios) e Direito Real de Superfície (PF/PJ/terrenos). Use SEMPRE que o Lucas mencionar "proposta APW", "proposta para cliente", "proposta de cessão", "proposta DRS", "proposta condomínio", "rodar proposta para deal Lxxxx", "fazer proposta de torre", "fechar deal", "convencer condomínio", "convencer cliente APW", ou colar dados de deal (deal ID L-code, cedente, operadora, aluguel, valores, prazos) pedindo material para enviar. Cobre todo o pipeline — perguntas estratégicas de persuasão, coleta e validação de inputs, estimativa de aluguel via IGP-M, cálculos financeiros internos (TIR, VP, spread sobre Selic, teste Tesouro, cenários de saída), narrativa persuasiva com tom de par/expert, identidade visual APW oficial, e briefing de envio.
 ---
 
 # APW Brasil — Proposta Comercial (Cessão / DRS)
@@ -15,69 +15,6 @@ O material precisa ser:
 - **Visualmente impecável** (identidade visual APW oficial — ver seção própria)
 - **Tecnicamente preciso** (matemática financeira correta, cenários honestos)
 - **Brasileiro empresarial** (português direto, sem floreio acadêmico, sem americanismos)
-
-## REGRAS DE OURO (aplicar em TODA proposta, sem exceção)
-
-Estas três regras têm precedência sobre qualquer outra orientação nesta skill. Se um trecho de outra seção contradizer uma delas, prevalecem estas.
-
-### 1. Enquadramento da APW: veículo de investimento, lógica de seguradora
-
-A APW NÃO é apresentada como "lease aggregator" — este termo é jargão de setor em inglês e não significa nada para o cedente. Também nunca como "empresa de gestão", "consolidadora", "fundo" ou "fintech". A definição correta é fixa:
-
-> A APW Brasil é um **veículo de investimento** cuja atividade é **comprar hoje, em valor certo, expectativas de recebíveis de contratos de aluguel de antena em todo o país**, assumindo integralmente o risco de cada contrato.
->
-> A lógica que sustenta o negócio é a mesma **lógica de uma seguradora**: o que seria um risco alto e concentrado se aplicado a um único contrato torna-se administrável quando diluído em um **portfólio de milhares de contratos** espalhados pelo Brasil, envolvendo diferentes torreiras, diferentes operadoras, diferentes regiões e diferentes tecnologias. É essa diversificação que permite à APW oferecer, para cada cedente individualmente, um valor certo à vista em troca de um fluxo futuro que — do ponto de vista de quem o detém isoladamente — é incerto.
-
-Esse enquadramento vai na Seção 1 (Síntese) de toda proposta. Copiar-e-colar não é obrigatório — pode-se ajustar levemente as palavras — mas os quatro elementos são fixos: **veículo de investimento**, **expectativas de recebíveis**, **assunção integral do risco**, **lógica de seguradora com portfólio de milhares de contratos**.
-
-Nunca usar: "lease aggregator", "aggregator", "consolidadora de leases", "empresa de gestão de contratos", "compradora de aluguel".
-
-### 2. Zero anglicismos no texto visível ao cedente
-
-O cedente é um síndico, um administrador, um proprietário ou um empresário brasileiro. Anglicismo do setor de telecom/finance destrói autoridade e mostra que o material é padronizado ao invés de feito para ele.
-
-Palavras PROIBIDAS no texto visível, com a tradução obrigatória:
-
-| Proibido (inglês) | Usar (português) |
-|---|---|
-| deal | operação · negociação · caso |
-| closing / at closing | ato da assinatura · fechamento · no ato |
-| lump sum | valor à vista · pagamento único |
-| face / face value | valor nominal · valor de proposta |
-| payout | pagamento · parcelamento |
-| custom pricing | proposta personalizada · condição personalizada |
-| due diligence | análise documental · verificação documental |
-| guidance | projeção · orientação |
-| break-even | ponto de equilíbrio |
-| pipeline | carteira · fluxo de operações |
-| dashboard | painel |
-| briefing | orientação · resumo |
-| meeting | reunião |
-| feedback | retorno |
-| offer | proposta · oferta |
-| Deal ID | Referência interna |
-
-Termos que permanecem em uso técnico porque são jargão brasileiro consolidado no setor (Anatel, ABRINTEL, imprensa especializada): **site** (ponto de instalação), **rooftop**, **ERB**. Esses NÃO precisam ser traduzidos.
-
-Sigla financeira: **TIR** sempre em português, nunca "IRR". **Múltiplo** ou **múltiplo do aluguel**, nunca "multiple". **VP** ou **valor presente**, nunca "PV".
-
-Antes de entregar qualquer proposta, executar `grep` (mental ou literal) por essas palavras no HTML final. Se aparecer alguma, corrigir.
-
-### 3. Neutralidade absoluta entre opções — NUNCA recomendar
-
-Quando a proposta oferece múltiplas opções (à vista, parcelada, custom), estas são apresentadas como **propostas firmes e alternativas entre si**. A escolha é do cedente e depende apenas de sua preferência de fluxo de caixa. É PROIBIDO:
-
-- Tag "Recomendada", "Melhor opção", "Nossa sugestão" em qualquer opção
-- Adjetivos que sugerem hierarquia: "ideal para X", "melhor para Y", "perfeita para Z"
-- Frases que comparam opções valorativamente: "a opção B entrega mais valor", "a opção A é a mais segura", "a opção C tem o maior múltiplo"
-- Destaque visual diferenciado (borda mais grossa, cor diferente, badge) em uma das opções
-- Ordem que sugira ranking (não colocar sempre a "melhor" primeiro)
-
-O callout de fechamento das opções deve deixar isso explícito. Formato fixo:
-
-> **Como escolher entre as três.** A decisão não é sobre qual "vale mais" — as três são propostas firmes, autônomas e alternativas entre si. A escolha é exclusivamente de preferência de fluxo de caixa do condomínio: (A) tudo agora; (B) reforço grande hoje e outro reforço grande daqui a X anos; (C) receita semestral substituindo o aluguel pelos próximos X anos.
-
-O comparativo com a concorrência (quando existir) mostra o **range** das opções APW (menor e maior valor nominal), não uma opção específica. O "financiamento ao contrário" e a "taxa embutida" também são apresentados como range (ex.: "entre 1,33% e 1,42% ao mês"), nunca como número de uma opção só.
 
 ## Filosofia de persuasão (o que torna esta proposta única)
 
@@ -143,11 +80,11 @@ A TIR é **ferramenta interna de cálculo**, não conteúdo da proposta. Regra f
    manga e NÃO deve entrar no documento?
 
 ### Bloco C — Proposta concorrente (CRÍTICO quando existe)
-7. **"Existe proposta concorrente na mesa? De quem?"** As duas famílias possíveis:
-   - **Torreira que já opera o site** oferecendo estender o contrato / assumir a cessão diretamente. Casos típicos: **American Tower, SBA, Highline, IHS, Phoenix, PTI** (empresas de torre — *não* são veículos de investimento; são operadoras que preferem manter o pagamento do aluguel para elas mesmas).
-   - **Outro veículo de investimento** concorrendo pela cessão. Casos típicos: **MD7, Landmark, Diamond, Radius (nós), TIP, Unison**.
-   - Se sim, peça: **prazo da proposta concorrente, valor oferecido e forma de pagamento**.
-   - **Regra de ouro APW vs. concorrência:** a proposta concorrente é
+7. **"Existe proposta concorrente na mesa? De quem?"** Especialmente
+   **American Tower** (ou outro lease aggregator: Highline, Phoenix, MD7, etc.).
+   - Se sim, peça: **prazo da proposta concorrente, valor oferecido e forma de
+     pagamento**.
+   - **Regra de ouro APW vs. American Tower:** a proposta da American Tower é
      tipicamente de **prazo curto (7 a 10 anos)** e, quando se calcula a taxa de
      desconto embutida, ela é **no mínimo o dobro mais cara** que a da APW. Ou
      seja: o cedente "troca" muito mais valor por muito menos tempo.
@@ -157,12 +94,8 @@ A TIR é **ferramenta interna de cálculo**, não conteúdo da proposta. Regra f
      implícita das duas ofertas (script Python) e mostre a diferença. Esse
      comparativo é internamente em "taxa de desconto"; no texto visível, traduzir
      para "a APW preserva muito mais do valor do seu fluxo" sem soltar a sigla TIR.
-   - **Sem citar nomes** no texto da proposta. Falar em "proposta concorrente",
-     "empresa que hoje aluga o espaço", "outra oferta na mesa" — nunca nomear a
-     torreira ou o veículo concorrente por respeito ao relacionamento comercial
-     que a APW mantém com todos eles no restante do portfólio.
 
-### Bloco D — Estrutura da operação
+### Bloco D — Estrutura do deal
 8. **Quantas opções** de proposta e seus valores/prazos exatos.
 9. **Operadora real × torreira** — quem paga (torreira) e quem opera (operadora),
    para a seção "como o contrato funciona" — sempre neutra.

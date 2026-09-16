@@ -1,0 +1,58 @@
+{
+  "_comentario": "Rodada real de 03/08/2026 (segunda, semana ISO 32). Serve de schema e de teste do build_png.py. Campos que vem do Power BI (nao da Web API): ano.adquirido, ano.meta, ano.pipeline, ano.pct e o pct de cada diretor. Qualquer campo pode vir null - o PNG omite o card em vez de chutar.",
+
+  "referencia": "03/08/2026",
+  "semana_iso": 32,
+  "janelas": {
+    "semana": "28/07 – 03/08/2026",
+    "mes": "04/07 – 03/08/2026",
+    "ano": "01/01/2026 – 03/08/2026"
+  },
+
+  "meta_ano_deals": 100,
+  "n_diretores": 15,
+  "meses_restantes": 5,
+  "hot_deals": 48,
+
+  "titulo_desafio": "DESAFIO ATÉ DEZEMBRO — FECHAR O ANO EM 3 DÍGITOS",
+  "titulo_desafio_diretor": "DESAFIO AGO–DEZ — 52 DEALS PARA FECHAR O ANO EM 3 DÍGITOS",
+
+  "totais": {
+    "semana": { "s1": 33, "s3": 14, "s5": 12, "s8": 2, "s99": 2 },
+    "mes":    { "s1": 195, "s3": 79, "s5": 82, "s8": 5, "s99": 9 },
+    "ano": {
+      "deals": 48,
+      "leases": 48,
+      "adquirido": 2793276,
+      "meta": 10511840,
+      "pipeline": 1331238,
+      "pct": 27
+    }
+  },
+
+  "diretores": [
+    {"nome": "Victoria Navarro",  "semana": {"s1": 2, "s3": 0, "s5": 0, "s99": 1}, "mes": {"s1": 21, "s3": 8,  "s5": 7,  "s8": 1, "s99": 1}, "ano": {"deals": 9, "adquirido": 603486, "pct": 100}},
+    {"nome": "Diogo Bueno",       "semana": {"s1": 0, "s3": 0, "s5": 0, "s99": 0}, "mes": {"s1": 7,  "s3": 6,  "s5": 5,  "s8": 1, "s99": 2}, "ano": {"deals": 7, "adquirido": 305843, "pct": 177}},
+    {"nome": "Gisele Tognolo",    "semana": {"s1": 4, "s3": 0, "s5": 0, "s99": 0}, "mes": {"s1": 22, "s3": 10, "s5": 9,  "s8": 0, "s99": 1}, "ano": {"deals": 6, "adquirido": 358757, "pct": 59}},
+    {"nome": "Lucas Minozzo",     "semana": {"s1": 1, "s3": 0, "s5": 0, "s99": 0}, "mes": {"s1": 3,  "s3": 2,  "s5": 3,  "s8": 0, "s99": 2}, "ano": {"deals": 4, "adquirido": 241656, "pct": 140}},
+    {"nome": "Carolina Brentzel", "semana": {"s1": 1, "s3": 0, "s5": 2, "s99": 0}, "mes": {"s1": 16, "s3": 5,  "s5": 5,  "s8": 0, "s99": 0}, "ano": {"deals": 4, "adquirido": 332930, "pct": 70}},
+    {"nome": "Regina Silveira",   "semana": {"s1": 5, "s3": 1, "s5": 1, "s99": 0}, "mes": {"s1": 13, "s3": 6,  "s5": 6,  "s8": 0, "s99": 0}, "ano": {"deals": 3, "adquirido": 110832, "pct": 25}},
+    {"nome": "Felipe Porto",      "semana": {"s1": 0, "s3": 0, "s5": 0, "s99": 0}, "mes": {"s1": 1,  "s3": 0,  "s5": 0,  "s8": 0, "s99": 0}, "ano": {"deals": 3, "adquirido": 176918, "pct": 25}},
+    {"nome": "Kamilla Rosa",      "semana": {"s1": 5, "s3": 1, "s5": 1, "s99": 0}, "mes": {"s1": 18, "s3": 5,  "s5": 5,  "s8": 1, "s99": 0}, "ano": {"deals": 2, "adquirido": 127427, "pct": 21}},
+    {"nome": "Fabio Boturao",     "semana": {"s1": 0, "s3": 1, "s5": 1, "s99": 0}, "mes": {"s1": 1,  "s3": 1,  "s5": 1,  "s8": 0, "s99": 1}, "ano": {"deals": 2, "adquirido": 202481, "pct": 28}},
+    {"nome": "Daiane dos Santos", "semana": {"s1": 2, "s3": 3, "s5": 4, "s99": 1}, "mes": {"s1": 19, "s3": 9,  "s5": 11, "s8": 1, "s99": 1}, "ano": {"deals": 2, "adquirido": 96028,  "pct": 16}},
+    {"nome": "Jose Daniel Ramos", "semana": {"s1": 0, "s3": 0, "s5": 0, "s99": 0}, "mes": {"s1": 0,  "s3": 0,  "s5": 1,  "s8": 0, "s99": 0}, "ano": {"deals": 1, "adquirido": 24000,  "pct": 3}},
+    {"nome": "Andressa Bueno",    "semana": {"s1": 6, "s3": 4, "s5": 0, "s99": 0}, "mes": {"s1": 24, "s3": 8,  "s5": 9,  "s8": 1, "s99": 0}, "ano": {"deals": 1, "adquirido": 70738,  "pct": 15}},
+    {"nome": "Aline Sanzi",       "semana": {"s1": 2, "s3": 0, "s5": 0, "s99": 0}, "mes": {"s1": 11, "s3": 3,  "s5": 3,  "s8": 0, "s99": 0}, "ano": {"deals": 1, "adquirido": 50280,  "pct": 8}},
+    {"nome": "Aline Felix",       "semana": {"s1": 1, "s3": 2, "s5": 1, "s99": 0}, "mes": {"s1": 19, "s3": 4,  "s5": 4,  "s8": 0, "s99": 1}, "ano": {"deals": 1, "adquirido": 18000,  "pct": 7}},
+    {"nome": "Roana Reboredo",    "semana": {"s1": 4, "s3": 2, "s5": 2, "s99": 0}, "mes": {"s1": 20, "s3": 12, "s5": 13, "s8": 0, "s99": 0}, "ano": {"deals": 0, "adquirido": 0,      "pct": 0}}
+  ],
+
+  "obs": "Obs.: o total do ano inclui 2 deals de owners fora da lista (pool). Submissions da semana não estão atribuídas por diretor.",
+
+  "leitura": [
+    "Cinco diretores (Victoria, Diogo, Gisele, Lucas, Carolina) respondem por 30 dos 48 deals do ano.",
+    "Roana é a 2ª em movimento no mês (20 S1 · 12 S3 · 13 S5) e ainda está em zero fechamento — o estoque existe, falta virar carta de intenção.",
+    "As 5 submissions do mês vieram de 5 pessoas diferentes; o motor de submission é o gargalo do número de agosto."
+  ]
+}

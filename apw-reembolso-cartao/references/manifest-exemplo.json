@@ -1,0 +1,53 @@
+{
+  "_comentario": "Os blocos entram no PDF NA ORDEM declarada. Ordem fixa APW: Form C/C -> transporte agrupado por fornecedor -> outras categorias -> NFs (uma por pagina).",
+  "arquivo_saida": "Reembolso_Lucas_Minozzo_julho_2026.pdf",
+  "pasta_saida": "/mnt/user-data/outputs",
+  "total_formulario": 1284.40,
+  "blocos": [
+    {
+      "tipo": "pdf",
+      "rotulo": "Form C/C preenchido",
+      "arquivo": "/mnt/user-data/uploads/form_cc_julho.pdf"
+    },
+    {
+      "tipo": "pdf",
+      "rotulo": "Transporte - ClickBus",
+      "arquivo": "/mnt/user-data/uploads/clickbus_1206.pdf",
+      "limpar_banner": true,
+      "valor": 68.90
+    },
+    {
+      "tipo": "pdf",
+      "rotulo": "Transporte - Uber",
+      "arquivo": "/mnt/user-data/uploads/uber_recibos.pdf",
+      "limpar_banner": true,
+      "banner_box": [110, 25, 500, 140],
+      "banner_paginas": [0, 1],
+      "valor": 212.30
+    },
+    {
+      "tipo": "pdf",
+      "rotulo": "Assinatura - anuidade",
+      "arquivo": "/mnt/user-data/uploads/anuidade.pdf",
+      "valor": 815.70
+    },
+    {
+      "tipo": "imagem",
+      "rotulo": "NF alimentacao",
+      "arquivo": "/mnt/user-data/uploads/IMG_4821.HEIC",
+      "estabelecimento": "Restaurante Fasano Atibaia",
+      "data": "14/07/2026",
+      "categoria": "Alimentacao",
+      "valor": 187.50
+    }
+  ],
+  "_campos": {
+    "tipo": "pdf | imagem",
+    "rotulo": "nome do bloco no relatorio de montagem (opcional)",
+    "limpar_banner": "true para prints exportados do navegador",
+    "banner_box": "[x0,y0,x1,y1] em pontos A4 — default [120,30,480,130]; aumente se sobrar sombra",
+    "banner_paginas": "indices RELATIVOS ao bloco (0 = primeira pagina dele); omita para limpar todas",
+    "valor": "usado na conferencia contra o TOTALIZADOR e no cabecalho da NF",
+    "titulo": "sobrescreve o cabecalho automatico da pagina de imagem"
+  }
+}
