@@ -62,7 +62,8 @@
     "edbec271-d59d-ef11-8a6a-0022480985f3": "Andressa Bueno",
     "bea2794a-97c3-ef11-b8e9-000d3a3355b9": "Roana Reboredo",
     "d49fdec3-f849-ef11-a317-000d3a5be4ff": "Carolina Brentzel",
-    "06a1eeda-93d7-f011-8543-6045bd0a09fc": "Aline Felix"
+    "06a1eeda-93d7-f011-8543-6045bd0a09fc": "Aline Felix",
+    "8e616ea9-8d8a-f111-ab0f-70a8a5b0fc4c": "Marcia Mangiulli"
   };
   const DIR_GUIDS = Object.keys(NM);
   const POOL = /pool|apwreports|surrender|disqualified|system|admin|integra|crm|queue/i;
