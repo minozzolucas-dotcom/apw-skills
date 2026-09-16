@@ -90,10 +90,11 @@ calor_*.json
 #   em references/ dentro de uma skill (templates oficiais etc.).
 
 # ---------- Bases pesadas ----------
-# Base Anatel de ERBs, planilhas nacionais etc. — sempre local
+# Base Anatel de ERBs (5MB+, dado público refetchável, sempre local)
+# Ignora só a base em si, NÃO arquivos .md/.py que referenciam a base
 mapaerbs*.zip
 mapaerbs*.csv
-anatel_*
+anatel_smp_base*
 anatel_*.csv
 anatel_*.csv.gz
 base_erbs*.csv
