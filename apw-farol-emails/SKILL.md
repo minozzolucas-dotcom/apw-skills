@@ -12,7 +12,7 @@ Consolida em uma única passada os emails de closing dos deals ativos do Farol e
 - Gmail que Claude lê: minozzo.lucas@gmail.com (conector Gmail ativo)
 - Remetente esperado no Gmail: lminozzo@radiusglobal.com (Lucas encaminhando via regra Outlook "Farol APW → Gmail")
 - Farol no ar: https://farol-closing-apw.pages.dev
-- Deals ativos no farol (16 L#): L959023, L924554, L362835, L1067615, L923086, L921623, L980570, L1108371, L921683, L1357080, L1357192, L1068138, L884789, L942661, L1261983, L1275179
+- Deals ativos no farol (16 L#): L959023, L924554, L362835, L1067615, L923086, L921623, L980570, L1108371, L921683, L1357080, L1357192, L1068138, L884789, L942661, L1261983, L1275179, L980793
 - Janela default: últimos 7 dias
 
 ## Passo 1 — buscar no Gmail
