@@ -73,7 +73,7 @@ pro budget, chá de cadeira meio-de-ciclo) — não substituem o ciclo UKG.
 | # | Meta | Peso | Natureza | Fonte principal |
 |:---:|---|:---:|---|---|
 | 1 | Pipeline Generation (S1 + S3 + S5) | 30% | Quantitativo | Harvest pace-score |
-| 2 | Business Results (S99 + Rent Acquired) | 20% | Quantitativo | Harvest + snippet rent |
+| 2 | Business Results (S8 + S99 + Rent Acquired) | 20% | Quantitativo | Harvest + snippet rent |
 | 3 | CRM Quality + DEI + Development | 15% | Misto | Autoaval + amostra Key Notes |
 | 4 | Excellence & Attitude | 15% | Qualitativo | Autoaval + observação gestor |
 | 5 | Company Goal: DEI | 5% | Qualitativo | Autoaval + observação |

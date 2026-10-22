@@ -5,10 +5,10 @@ Primeiro ciclo real da skill repivotada pra semestral (commit 3a105e0 de
 
 ## Diretores rodados
 
-| Diretor | Regime | Pipeline H1 | Business H1 | Nota final |
+| Diretor | Regime | Pipeline H1 | Business H1 (S8+S99+Rent) | Nota final |
 |---|---|---|---|:---:|
-| Fabio Boturao | Sr Experiente | 70/110 (64%) | S99 1/5 · Rent R$58k/R$320k (18%) | 1 Needs Improvement (1,47) |
-| Felipe Porto | Sr Experiente | 58/110 (53%) | S99 3/5 · Rent R$177k/R$320k (55%) | 1 Needs Improvement (1,53) |
+| Fabio Boturao | Sr Experiente | 70/110 (64%) | S8 3/6 · S99 1/5 · Rent R$58k/R$320k (29% consolidado) | 1 Needs Improvement (1,47) |
+| Felipe Porto | Sr Experiente | 58/110 (53%) | S8 3/6 · S99 3/5 · Rent R$177k/R$320k (55% consolidado) | 1 Needs Improvement (1,42) |
 
 ## Harvest
 

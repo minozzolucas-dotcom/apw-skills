@@ -13,7 +13,7 @@ Build: apw-quarter-performance-review v2 (ciclo semestral)
 | Meta | Resultado | % meta H1 | Nota |
 |---|---|---|:---:|
 | M1 Pipeline (S1+S3+S5) | 70 (31+19+20) | 64% de 110 | 1 |
-| M2 Business (S99 + Rent) | S99=1 · R$ 58.481 | 20% / 18% | 1 |
+| M2 Business (S8+S99+Rent) | S8=3 · S99=1 · R$ 58.481 | 50% / 20% / 18% | 1 |
 | M3 CRM Quality + DEI + Dev | — | qualitativo | 2 |
 | M4 Excellence & Attitude | — | qualitativo | 2 |
 | M5 Company Goal DEI | — | qualitativo | 2 |
@@ -30,10 +30,10 @@ Pipeline Generation ficou em 64% da meta semestral: S1 = 31 (vs 50), S3 = 19 (vs
 
 ---
 
-## 2. Business Results (S99 + Rent Acquired) — Peso 20%
+## 2. Business Results (S8 + S99 + Rent Acquired) — Peso 20%
 **Manager Rating: 1 — Needs Improvement**
 
-Business Results ficou em 18-20% da meta semestral: 1 deal fechado em S99 no H1 (vs meta 5) e R$ 58.481 de rent acquired (vs meta R$ 320.760). É o resultado natural de ter pipeline rodando abaixo da cota — menos deals em S3/S5 significa menos conversão em S99. O deal fechado está contabilizado, mas a reposição do funil é prioridade antes de poder cobrar mais fechamento. Pra H2 bater os 5 S99 que faltam, precisa dos deals de S5/S8 atuais rodarem até o fim + nova geração em S5 cobrindo repropostas de deals purgados.
+Business Results em 29% da meta semestral consolidada: S8 = 3 (vs 6, 50%), S99 = 1 (vs 5, 20%) e R$ 58.481 de rent acquired (vs R$ 320.760, 18%). O gap em S99 e rent é o reflexo direto do pipeline abaixo da cota — menos deals em S3/S5 significa menos conversão em assinatura e pagamento. Os 3 contratos em S8 são a base pra recuperação em H2: precisam rodar até funding + novos contratos saindo de S5/S8 pra fechar os 5 S99 que faltam no ano.
 
 ---
 
