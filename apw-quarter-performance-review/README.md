@@ -1,11 +1,23 @@
 # apw-quarter-performance-review
 
-Avaliação de desempenho dos 14 diretores de aquisição APW Brasil no modelo
-UKG (2026 First/Second Half Semi-Annual Performance Review – Sales).
+Avaliação de desempenho **SEMESTRAL** dos 14 diretores de aquisição APW
+Brasil no modelo UKG (2026 First/Second Half Semi-Annual Performance Review
+– Sales).
 
 Não é plano prospectivo (`apw-90day-plan`), não é reporte diário
 (`apw-reporte-crm-diario`). É **avaliação formal com nota do gestor**,
 texto pronto pra colar no UKG e PDF de evidência pra arquivar.
+
+## Ciclo oficial = semestral
+
+| Ciclo | Período | Pro-rata | Quando roda |
+|---|---|:---:|---|
+| **H1-2026** | jan–jun 2026 | 50% | Devendo (atrasado — rodar AGORA) |
+| **H2-2026** | jul–dez 2026 | 50% | Janeiro 2027 |
+
+`9M-2026`, `Q3-2026` e `FY-2026` continuam no build como visões auxiliares
+pra fotografias intermediárias (budget, meio-de-ciclo), não substituem o
+ciclo UKG.
 
 ## Ordem de execução (fluxo completo ≈ 15 min)
 
@@ -25,6 +37,12 @@ snippet, aguarda download:
 > `data/rent_pbi_oficial_YYYY-MM-DD.csv`.** Use quando quiser detalhe por
 > deal (L-numbers) ou refresh entre atualizações do PBI.
 
+> **Pro H1-2026 (corte 30/jun/2026):** idealmente usar harvest/snapshot
+> arquivado nessa data pra não contaminar com atividade pós-ciclo. Se não
+> tiver, roda ao vivo — o build filtra por data no quantitativo
+> (pipeline/business) mas qualitativo (Key Notes, atividades) pode vazar
+> comportamento recente; vale a flag no texto do UKG.
+
 ### 2. Reusar harvest da pace-score
 
 Esta skill também precisa de `apw_pace_harvest_YYYY-MM-DD.json` da skill
@@ -40,8 +58,8 @@ Formato esperado do markdown:
 
 ```markdown
 # Autoavaliação - Fabio F. Boturao
-Ciclo: 2026 Second Half Semi-Annual Performance Review - Sales
-Data: 2026-10-14
+Ciclo: 2026 First Half Semi-Annual Performance Review - Sales
+Data: 2026-10-22
 
 ## Meta 1 - Pipeline Generation
 Nota: Needs Improvement
@@ -74,25 +92,25 @@ Nota: Meets
 Comentário: Domínio completo do CRM do Stg 1 ao 99.
 ```
 
-### 4. Rodar o build
+### 4. Rodar o build — H1-2026 (ciclo atrasado)
 
 ```bash
 python3 references/build_review.py \
-  --harvest=apw_pace_harvest_2026-10-14.json \
+  --harvest=apw_pace_harvest_2026-06-30.json \
   --activities=apw_activities_2026-10-14.json \
   --keynotes=apw_keynotes_sample_2026-10-14.json \
-  --rent-pbi=data/rent_pbi_oficial_2026-10-14.csv \
+  --rent-pbi=data/rent_pbi_oficial_H1-2026.csv \
   --inputs=inputs/ \
-  --periodo=H2-2026 \
-  --out=performance-review-H2-2026/
+  --periodo=H1-2026 \
+  --out=performance-review-H1-2026/
 ```
 
 Flags de período:
-- `H1-2026` (jan-jun) → meta pro-rata × 50%
-- `9M-2026` (jan-set) → × 75%
-- `Q3-2026` (jul-set, isolado) → × 25%
-- `H2-2026` (jul-dez) → × 50%
-- `FY-2026` (ano todo) → × 100%
+- **`H1-2026`** (jan-jun) → meta pro-rata × 50% — **ciclo UKG oficial**
+- **`H2-2026`** (jul-dez) → × 50% — **ciclo UKG oficial**
+- `9M-2026` (jan-set) → × 75% — auxiliar
+- `Q3-2026` (jul-set, isolado) → × 25% — auxiliar
+- `FY-2026` (ano todo) → × 100% — auxiliar
 
 ### 5. Revisar
 
@@ -105,7 +123,7 @@ Flags de período:
 
 ### 6. Colar no UKG
 
-Pro cada diretor, abre a página dele no UKG, copia o conteúdo de
+Pra cada diretor, abre a página dele no UKG, copia o conteúdo de
 `<diretor>/texto-pronto-ukg.md` meta por meta.
 
 ## O que a skill DECIDE sozinha vs o que você revê
@@ -122,6 +140,13 @@ Pro cada diretor, abre a página dele no UKG, copia o conteúdo de
 | Texto de comentário por meta | ✅ (template) | ✅ (ajuste de tom) |
 | Nota final ponderada | ✅ | — |
 
+## Caso especial — Marcia Mangiulli
+
+Hire date 28/jul/2026.
+- **H1-2026**: fora do ciclo (0 meses de casa). Marca "N/A — hire 28/jul/2026" no UKG.
+- **H2-2026**: pro-rata 5/6 (ago-dez) × meta anual × 50%. Metas efetivas
+  ~ S1 58 / S3 29 / S5 29 / S8 4 / S99 3.
+
 ## Arquivos nesta skill
 
 ```
@@ -129,19 +154,18 @@ apw-quarter-performance-review/
 ├── SKILL.md
 ├── README.md
 ├── data/
-│   └── rent_pbi_oficial_2026-10-14.csv    ← target + acquired YTD/Q3 do PBI
+│   └── rent_pbi_oficial_YYYY-MM-DD.csv    ← target + acquired YTD do PBI
 └── references/
     ├── 1_harvest_rent_acquired.js         ← opcional (detalhe por deal)
     ├── 2_harvest_activities.js            ← obrigatório
     ├── 3_harvest_keynotes_sample.js       ← obrigatório
     ├── 4_ukg_scrape_autoavaliacao.js      ← opcional (acelera coleta)
-    └── build_review.py                    ← próxima entrega
+    └── build_review.py                    ← motor do build
 ```
 
-## Status
+## Histórico
 
-- ✅ SKILL.md, README.md, 4 snippets JS
-- ✅ CSV oficial PBI embutido (sem precisar rodar snippet 1)
-- 🔄 `build_review.py` — próxima entrega (vou fazer depois que você rodar
-  os snippets 2 e 3 e me mandar os JSONs — assim já calibro o build com
-  dado real)
+- **14/out/2026** — skill publicada, piloto rodado em 9M-2026 com
+  autoavaliação do Fabio Boturao
+- **22/out/2026** — repivotada pra ciclo semestral oficial UKG (H1/H2);
+  9M/Q3/FY viram visões auxiliares
