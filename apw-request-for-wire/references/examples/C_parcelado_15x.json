@@ -1,15 +1,11 @@
 {
  "l_code": "L0000002",
- "name": "Exemplo Airton",
+ "name": "Exemplo Parcelado 15x",
  "deal_type": "Surface Right",
  "completion_date": "2026-01-05",
  "tenant": "Torres do Brasil",
  "prorata": null,
  "price": 250000,
- "row13": {
-  "kind": "capex",
-  "amount": 35000
- },
  "costs": {
   "title": 2500.61,
   "notary": 200,

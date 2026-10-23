@@ -16,7 +16,7 @@ Validado em 85 closings jan–out/2026. Abas: `Investment`, `Sheet1` (vazia), `C
 | 9–10 | ITEMS / Source/Fonte / Deduct / Deduct (VAT) / Add / ADD (VAT) / R$ | | | | |
 | 11 | Purchase Price / Valor Investimento | Lease M-files | | preço | |
 | 12 | Rent Apportionments + meses | Lease M-files | −pró-rata | | |
-| 13 | Intermediary / Broker Fee **ou** CAPEX Contribution | | `=-F13` | valor | |
+| 13 | Intermediary / Broker Fee | | `=-F13` | valor | |
 | 14 | Title Search Charges/Certidões/Documentos/Correio | link | `=-F14` | | |
 | 15 | Local Notary Fees/ Despesas com Cartório (s) | Link | `=-F15` | | |
 | 16 | Recording Fees/ Custo de Registro | Link | `=-F16` | `=a+b+c` | |

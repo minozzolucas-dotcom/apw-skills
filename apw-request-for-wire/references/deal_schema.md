@@ -1,7 +1,7 @@
 # deal.json — schema do `fill_closing.py`
 
 Exemplos em `examples/` — valores de closings reais que reproduzem o Nilton centavo a centavo; nomes e dados bancários anonimizados:
-`A_cessao_a_vista` · `A_drs_a_vista_please_note` · `B_C_tbsa_capex_parcelado_15x` · `C_parcelado_broker_apw_no_wire` · `D_cessao_drs_pagto_condicionado` · `E_sinal_pago_material_tecnico_2LL` · `F_iptu_broker_LL_advogado`.
+`A_cessao_a_vista` · `A_drs_a_vista_please_note` · `C_parcelado_15x` · `C_parcelado_broker_apw_no_wire` · `D_cessao_drs_pagto_condicionado` · `E_sinal_pago_material_tecnico_2LL` · `F_iptu_broker_LL_advogado`.
 
 ```jsonc
 {
@@ -15,7 +15,7 @@ Exemplos em `examples/` — valores de closings reais que reproduzem o Nilton ce
   "prorata": {"from": "May", "to": "August", "completion": "September", "months": 4, "rent": 2520.47},
                                        // null se o contrato não tem pró-rata. "label" opcional sobrescreve os meses do B12
   "price": 200000,                     // ou lista [34000, 34000] → =34000+34000
-  "row13": {"kind": "capex", "amount": 35000},              // ou {"kind":"broker","amount":..,"paid_in_wire":true}
+  "row13": {"kind": "broker", "amount": 2600},             // broker da APW; "paid_in_wire": true se sai no próprio wire
   "costs": {                           // número ou lista de componentes (vira fórmula =a+b+c)
     "title": 900, "notary": 400, "recording": [4000, 3400.86, 1100],
     "legal": 3200, "site_inspection": 2000

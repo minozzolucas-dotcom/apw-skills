@@ -1,6 +1,6 @@
 ---
 name: apw-request-for-wire
-description: Gera o Closing Statement (Excel no padrão exato do Nilton) + o e-mail "Request for Wire" para a tesouraria/UW da Radius em San Diego, a partir da pasta de closing de um deal APW Brasil (custas do jurídico, contrato/minuta/aditivo, planilha de pagamento/provisionamento, ISW). Use quando o Lucas pedir "closing statement", "request for wire", "RFW", "pedido de wire", "fazer o wire", "monta o closing", "completion statement", "mandar pro treasury/San Diego", ou mandar a pasta/arquivos de fechamento de um L. Cobre Cessão, DRS, Fee Simple, Cessão+DRS, parcelados, pagamento condicionado ao registro, CAPEX TBSA, broker, IPTU, alienação fiduciária, advogado e terceiros como beneficiários. NÃO use para análise contratual (apw-telecom-real-estate-counsel), dossiê de deal (apw-deal-dossier) ou submissão ao IC (apw-submission-writer).
+description: Gera o Closing Statement (Excel no padrão exato do Nilton) + o e-mail "Request for Wire" para a tesouraria/UW da Radius em San Diego, a partir da pasta de closing de um deal APW Brasil (custas do jurídico, contrato/minuta/aditivo, planilha de pagamento/provisionamento, ISW). Use quando o Lucas pedir "closing statement", "request for wire", "RFW", "pedido de wire", "fazer o wire", "monta o closing", "completion statement", "mandar pro treasury/San Diego", ou mandar a pasta/arquivos de fechamento de um L. Cobre Cessão, DRS, Fee Simple, Cessão+DRS, parcelados, pagamento condicionado ao registro, broker, IPTU, alienação fiduciária, advogado e terceiros como beneficiários. NÃO use para análise contratual (apw-telecom-real-estate-counsel), dossiê de deal (apw-deal-dossier) ou submissão ao IC (apw-submission-writer).
 ---
 
 # APW Request for Wire — Closing Statement + e-mail RFW
@@ -23,7 +23,6 @@ Base empírica: 85 closings reais jan–out/2026. Arquétipos e regras abaixo fo
 | Dados bancários quando o contrato só diz "chave PIX"/"vide cláusula" | Planilha de Pagamento/Provisionamento (fora de `Old/`) ou Vendor Request Form | — |
 | Key Notes (narrativa do e-mail) | ISW, Submission Sheet, Key Notes (`scripts/parse_isw.py`) — verbatim | — |
 | Código L / nome | Nome da pasta / CRM | Código no nome de anexo (já veio L errado, já aconteceu) |
-| CAPEX TBSA | ISW linha "Other – Capex/TBSA Contribution" (se divergir do valor que o Lucas informar, perguntar) | — |
 
 **Regra de ouro das custas:** somar os ITENS da tabela você mesmo. A linha "Saldo" do jurídico errou 5× em 10 meses (L962411, L943649, L1265019, L1108371, L1011589). O auxílio advogado vem do **contrato**, não da custas (L975597: custas listava R$2k de auxílio, contrato não tinha → F18 = 0).
 
@@ -54,7 +53,7 @@ Perguntar só o que não estiver nos documentos (ex.: Expected Funding Date se o
 | N5 / O5 / P5 | nº meses (1 a 4) / aluguel mensal (item 12 do Quadro Resumo, do contrato MAIS RECENTE) / `=O5*N5` | contrato |
 | B12 / D12 | "Rent Apportionments" + meses listados / `=-P5` | sem pró-rata: K–M "-", N5=O5=0, D12=0 |
 | F11 | Preço (aceita centavos; deal combinado: `=34000+34000`) | item 5 do Quadro Resumo |
-| B13/F13/D13 | "CAPEX Contribution" (TBSA) **ou** "Intermediary / Broker Fee" (broker da APW) | ver seção 5 |
+| B13/F13/D13 | "Intermediary / Broker Fee" (broker da APW) | ver seção 5 |
 | F14 Title | Manancial, Certidões, Levantamento Planialtimétrico/Georref., TopSat | custas |
 | F15 Notary | Rec. Firmas, Procuração, Traslado, Diligências, Agrimensor, e-notariado | custas |
 | F16 Recording | ITBI + Escritura + Registro(s) CDT/comarca + Emolumentos/Averbação — como **fórmula com os componentes** (`=2224.03+6118.11`) | custas |
@@ -76,8 +75,7 @@ Linha 20 em diante é gerada pelo script: [linhas de sinal já pago] → `(-) In
 | # | Arquétipo | Como fica | Exemplo |
 |---|---|---|---|
 | A | Cessão / DRS / Fee Simple à vista | G(LL) = `F11+D12+F18` | `examples/A_*.json` |
-| B | TBSA com CAPEX | linha 13 CAPEX (D=−F); resto igual A | L922851, L932401 |
-| C | **Parcelado** (DRS ou Cessão; 2 a 15 parcelas; semestral ou anual) | `first_payment` = 1ª parcela; cronograma "Nº Installment payment due until MM/DD/YYYY" (datas **literais do contrato**); D(Installments) = `−SUM(cronograma)`; G(LL) = `<1ª>+D12+F18` | `B_C_tbsa_capex_parcelado_15x.json`, L1256398, L968107, L975597 |
+| C | **Parcelado** (DRS ou Cessão; 2 a 15 parcelas; semestral ou anual) | `first_payment` = 1ª parcela; cronograma "Nº Installment payment due until MM/DD/YYYY" (datas **sempre literais do contrato**); D(Installments) = `−SUM(cronograma)`; G(LL) = `<1ª>+D12+F18` | `C_parcelado_15x.json`, L1256398, L968107, L975597 |
 | D | **2º pagamento condicionado ao registro** | linha "2º payment conditioned to Public Deed Registration, date uncertain but expected between X to Y days" (prazo copiado do contrato). Se há `first_payment` → não desconta do LL (`carve_from_landlord:false`); se não há → desconta | `D_cessao_drs_pagto_condicionado.json`, L929595, L1264288, L884023, L923086 |
 | E | **Sinal já pago** antes do closing | linha extra antes de Installments ("Payment in advance (Month YYYY)"), D negativo; entra somado na fórmula do LL | `E_sinal_pago_material_tecnico_2LL.json` |
 | F | **Beneficiários múltiplos** (Balance Due não muda, só é repartido) | bloco próprio por terceiro; G(LL) subtrai cada um | `F_iptu_broker_LL_advogado.json`, L1265019 (4 beneficiários) |
@@ -150,7 +148,7 @@ No Outlook, o ideal é colar as faixas do próprio Excel (como o Nilton faz); o 
 - [ ] Bank Code conferido na aba "Cod. Bancos" (bancos raros: 070 BRB, 085 Ailos/Unilos, 003 Amazônia, 481 Superlógica, 748 Sicredi, 756 Sicoob)
 - [ ] Alienação fiduciária → boleto anexado
 
-## 8. Decisões em aberto (defaults até o Lucas dizer o contrário)
-- Datas das parcelas: **literais do contrato** (a UW às vezes reescreve para dia 20 do mês seguinte — ela ajusta se quiser).
-- D6 em DRS: data estimada informada pelo jurídico.
-- CAPEX TBSA divergente entre ISW e informação do time: perguntar.
+## 8. Regras fixas definidas pelo Lucas
+- **Datas das parcelas: SEMPRE copiadas literalmente do contrato** (dia e mês como estão na cláusula). Não ajustar para o dia 20 nem para o padrão da UW.
+- **CAPEX TBSA não existe mais**: não usar linha "CAPEX Contribution" (closings antigos de 2026 tinham; ignorar).
+- D6 em DRS: data estimada informada pelo jurídico (default até decisão contrária).

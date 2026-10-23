@@ -6,10 +6,6 @@
  "tenant": "Torres do Brasil",
  "prorata": null,
  "price": 186000,
- "row13": {
-  "kind": "capex",
-  "amount": 44000
- },
  "costs": {
   "title": 1500,
   "notary": 1500,

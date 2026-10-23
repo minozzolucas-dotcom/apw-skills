@@ -106,11 +106,11 @@ def build(spec, template, outdir):
     pv, price = num_or_formula(spec["price"])
     ws["F11"] = pv
 
-    # linha 13: CAPEX (TBSA) ou Broker
+    # linha 13: Broker da APW (CAPEX TBSA descontinuado)
     r13 = spec.get("row13")
     wire_extra = 0.0          # valores em F sem D (entram no Balance Due)
     if r13:
-        ws["B13"] = "CAPEX Contribution" if r13["kind"] == "capex" else "Intermediary / Broker Fee"
+        ws["B13"] = "Intermediary / Broker Fee"
         ws["F13"] = r13["amount"]
         if r13.get("paid_in_wire"):      # broker APW pago no próprio wire (UW: sem D)
             ws["D13"] = None
@@ -349,7 +349,7 @@ def _items_rows(spec, rep):
     lines = [
         ("Purchase Price / Valor Investimento", "Lease M-files", "", "R$ " + brl(num_or_formula(spec["price"])[1])),
         ("Rent Apportionments " + pr_lbl, "Lease M-files", f"<span style='color:#c00000'>{brl(-pr)}</span>" if pr else "0,00", ""),
-        ("CAPEX Contribution" if (r13 and r13['kind'] == 'capex') else "Intermediary / Broker Fee", "",
+        ("Intermediary / Broker Fee", "",
          (brl(-r13['amount']) if r13 and not r13.get('paid_in_wire') else ""), (brl(r13['amount']) if r13 else "")),
         ("Title Search Charges/Certidões/Documentos/Correio", "link", brl(-tot("title")), brl(tot("title"))),
         ("Local Notary Fees/ Despesas com Cartório (s)", "Link", brl(-tot("notary")), brl(tot("notary"))),
