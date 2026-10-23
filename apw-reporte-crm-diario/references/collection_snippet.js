@@ -1,6 +1,6 @@
-/* ===== REPORTE DIÁRIO CRM (APW) — 14 diretores — ALVO 09/09/2026 =====
+/* ===== REPORTE DIÁRIO CRM (APW) — 14 diretores — ALVO = hoje (data do PC; p/ dia passado troque por new Date("YYYY-MM-DDT12:00:00")) =====
    Aba logada em https://apwireless.crm.dynamics.com → F12 → Console → cola TUDO → Enter
-   Baixa: reporte_2026-09-09.json  (regex via new RegExp — cola sem erro de barra) */
+   Baixa: reporte_<hoje>.json  (regex via new RegExp — cola sem erro de barra) */
 (async () => {
   const API="https://apwireless.crm.dynamics.com/api/data/v9.2",FV="OData.Community.Display.V1.FormattedValue";
   const H={"Accept":"application/json","OData-MaxVersion":"4.0","OData-Version":"4.0","Prefer":'odata.maxpagesize=5000,odata.include-annotations="'+FV+'"'};
@@ -9,7 +9,7 @@
   const NM={"70a07063-6fdf-e311-8265-00155d00fe04":"Jose Daniel Ramos","c336d752-e6fb-ed11-8849-000d3a5a8269":"Regina Silveira","b5ece3de-6c3c-ee11-bdf4-000d3a5a8e5c":"Kamilla Rosa","0f5c2d0c-d6d4-e911-a9a8-000d3a360ed5":"Felipe Porto","342e4168-9660-e911-a997-000d3a360ed5":"Fabio Boturao","2d3010fa-61f4-ed11-8848-000d3a5a82bf":"Aline Sanzi","f41da072-58a6-ed11-aad1-000d3a5a8baa":"Victoria Navarro","bd19844f-8b38-ee11-bdf4-6045bd095340":"Daiane dos Santos","cb48e1a0-4959-ee11-be6f-000d3a317ead":"Gisele Tognolo","edbec271-d59d-ef11-8a6a-0022480985f3":"Andressa Bueno","bea2794a-97c3-ef11-b8e9-000d3a3355b9":"Roana Reboredo","d49fdec3-f849-ef11-a317-000d3a5be4ff":"Carolina Brentzel","06a1eeda-93d7-f011-8543-6045bd0a09fc":"Aline Felix","8e616ea9-8d8a-f111-ab0f-70a8a5b0fc4c":"Marcia Mangiulli"};
   const DIR=Object.keys(NM),POOL=new RegExp("pool|apwreports|surrender|disqualified|system|admin|integra|crm|queue","i");
   const norm=v=>(v||"").toString().toLowerCase().replace(/[{}]/g,""),isDir=g=>!!NM[norm(g)];
-  const hoje=new Date("2026-09-09T12:00:00"),iso=d=>d.toISOString().slice(0,10),DIA=iso(hoje);
+  const hoje=(()=>{const d=new Date();d.setHours(12,0,0,0);return d;})(),iso=d=>d.toISOString().slice(0,10),DIA=iso(hoje);
   const semIni=(()=>{const d=new Date(hoje),dow=(d.getDay()+6)%7;d.setDate(d.getDate()-dow);return iso(d);})();
   const FIM_UTC=(()=>{const d=new Date(hoje);d.setDate(d.getDate()+1);return iso(d)+"T03:00:00Z";})(),semIniUTC=semIni+"T03:00:00Z";
   const diasU=(()=>{let n=0;const a=new Date(semIni+"T12:00:00"),b=new Date(DIA+"T12:00:00");for(let d=new Date(a);d<=b;d.setDate(d.getDate()+1)){const w=d.getDay();if(w>=1&&w<=5)n++;}return n;})();
@@ -54,5 +54,5 @@
   const diretores=DIR.map(g=>D[g]).sort((a,b)=>{const mv=x=>x.semana.s3*100+x.semana.s1*10+x.semana.rep;return mv(b)-mv(a)||b.semana.subst-a.semana.subst||a.nome.localeCompare(b.nome);});
   const out={referencia:dmy(DIA),alvo:DIA,corte_hora:new Date().toISOString(),dia:dmy(DIA),semana_janela:dmy(semIni)+" – "+dmy(DIA),dias_uteis:{decorridos:diasU,total:5},metas:{s1:3,s3:2,repropostas:4,atividades:100,substantivas_pct:35,ativ_dia:20,subst_dia_pct:35},n_diretores:DIR.length,diretores,totais:{dia:tot.dia,semana:tot.semana},destaque_dia:null,destaque_semana:null,_meta:{host:location.origin,stage5owner_disponivel:s5disp,contagem:{s1_rows:s1.length,s3_rows:s3.length,pricing_rows:prc.length,opps_detalhadas:oppList.length,atividades:acts.length},avisos:av}};
   const blob=new Blob([JSON.stringify(out,null,1)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="reporte_"+DIA+".json";document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
-  console.log("%c[REPORTE 09/09] baixou reporte_"+DIA+".json","color:green;font-weight:bold",{totais:out.totais,contagem:out._meta.contagem,avisos:out._meta.avisos});
+  console.log("%c[REPORTE] baixou reporte_"+DIA+".json","color:green;font-weight:bold",{totais:out.totais,contagem:out._meta.contagem,avisos:out._meta.avisos});
 })();

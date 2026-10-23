@@ -7,7 +7,8 @@ description: >
   L-numbers movidos, destaques do dia/semana e frase motivacional, e entrega um PNG
   pronto pra colar no e-mail. Use SEMPRE que o Lucas disser "roda o reporte de hoje",
   "reporte diário", "reporte CRM", "movimentações do dia", "produtividade dos diretores",
-  ou mencionar as views, os 13 diretores Brasil, as metas semanais, ou o fechamento de um dia anterior.
+  ou mencionar as views, os 14 diretores Brasil, as metas semanais, ou o fechamento de um dia anterior.
+  Coleta é SEMPRE pelo Lucas via snippet F12 (nunca Claude in Chrome); o Claude só recebe o JSON e monta.
   NÃO use para dossiê de deal único (apw-deal-dossier), forensics de atividades coladas
   (apw-opp-activity-forensics), nem consulta pontual ao CRM (apw-dynamics-copilot).
 ---
@@ -19,9 +20,12 @@ Web API e entregue como **imagem PNG** na identidade APW Brasil (skill `apw-bran
 
 ## Como roda (pipeline)
 
-1. **Coleta** — via **Claude in Chrome**, numa aba autenticada em `https://apwireless.crm.dynamics.com`.
-   Cole `references/collection.js` no `javascript_tool`. Ele usa a sessão do Lucas, puxa tudo
-   por **Web API JSON** e devolve o `data.json` (faltando só os destaques).
+1. **Coleta — SÓ VIA SNIPPET, feita pelo Lucas.** 🚫 **NUNCA usar Claude in Chrome** nesta skill
+   (nada de `javascript_tool`, `read_page`, `navigate`, screenshot — nem "só pra adiantar"; regra do Lucas, 22/10/2026).
+   O Claude entrega `references/collection_snippet.js` (data = hoje, pelo relógio do PC) → o Lucas abre
+   `https://apwireless.crm.dynamics.com`, **F12 → Console → cola → Enter** → baixa `reporte_<YYYY-MM-DD>.json`
+   → manda o arquivo no chat. O snippet usa a sessão dele e puxa tudo por **Web API JSON**.
+   Sem JSON do Lucas, **não há reporte**: pedir o arquivo e esperar, nunca coletar por conta própria.
 2. **Destaques + Leitura do dia** — o Claude preenche `destaque_dia`, `destaque_semana` e `leitura_dia` no data.json:
    - **Dia** = diretor com maior movimento HOJE (peso: Stage 3 > Stage 1 > reproposta; empate → mais substantivas no dia).
    - **Semana** = maior movimento na semana (mesmo critério). Texto **factual, sem adjetivo** ("4 Stage 1, 3 repropostas, 68 atividades (17 substantivas · 25%)").
@@ -35,7 +39,7 @@ Web API e entregue como **imagem PNG** na identidade APW Brasil (skill `apw-bran
 
 - **Host:** `https://apwireless.crm.dynamics.com/api/data/v9.2` (NÃO apwbrasil.crm2).
 - **Views (userQuery):** Stage 1 `a020dfbe-4a3f-f111-88b4-00224805b156` · Stage 3 `50aca927-4b3f-f111-88b4-00224805b156` · Pricing `e85d5310-8c42-f111-88b4-6045bd07461c` (todas entidade `opportunities`, exceto pricing = `apwip_pricingoptions`).
-- **13 diretores:** GUIDs no `collection.js`. Excluir sempre pools/system e qualquer owner fora dos 13.
+- **14 diretores:** GUIDs no `collection_snippet.js` (canônico; inclui Marcia Mangiulli desde 25/08/2026). Excluir sempre pools/system e qualquer owner fora da lista.
   **Bruna Matos removida em 24/07/2026** (desligamento) — GUID fora do `collection.js` e `N_DIR=13` no `build_report.py`. Ao entrar/sair diretor, mexer nos DOIS arquivos.
 - **Campos de data ("dia" = este campo no dia / "semana" = este campo na semana):**
   - Stage 1 → `apwip_stage1_obtainedleaseeconomics`
@@ -48,7 +52,8 @@ Web API e entregue como **imagem PNG** na identidade APW Brasil (skill `apw-bran
 ## Fechamento de dia anterior (retroativo)
 
 As views são **snapshot ao vivo** — rodar hoje traz também o que já entrou hoje. Para fechar um dia
-passado (ex.: "fecha ontem"), no `collection.js`: fixar `ALVO=<YYYY-MM-DD>`, cortar
+passado (ex.: "fecha ontem"), o Claude entrega o snippet com `hoje` fixado em `new Date("<ALVO>T12:00:00")` (o snippet já corta
+`FIM` e descarta o que passou do dia-alvo) — referência de lógica no `collection.js`: fixar `ALVO=<YYYY-MM-DD>`, cortar
 `FIM=<ALVO+1>T03:00:00Z` e **descartar** S1/S3 com data de estágio `> ALVO` e pricing com
 `createdon(BR) > ALVO`. Passar `ALVO` como 3º argumento do `build_report.py` (o pace do radar
 recalcula sozinho). O acumulado da semana fica menor que o do reporte de hoje — isso é **correto**,
@@ -94,11 +99,13 @@ nunca reaproveitar o data.json da rodada anterior.
 - **Leitura do dia** no rodapé (substituiu a frase motivacional, descontinuada em 24/07/2026): 1–3 frases do Claude lendo o número do dia — o que o dado mostra, quem destoa, o que olhar amanhã. Factual e direto, sem coaching, sem adjetivo vazio, sem citação de guru. Se `leitura_dia` vier vazio, o bloco simplesmente não é renderizado.
 - Identidade visual: skill `apw-brand`.
 
-## Anti-travamento / compliance (apw-chrome-agent-lean-compliance)
+## Anti-travamento / compliance
 
-- Tudo por **Web API JSON**. PROIBIDO `read_page`/`get_page_text`/**screenshot** em domínio Dynamics.
+- **Claude não acessa o Dynamics nesta skill.** Coleta = snippet F12 rodado pelo Lucas; Claude trabalha só com o JSON recebido.
+- Dentro do snippet: tudo por **Web API JSON** (sem scraping de tela).
 - Paginar via `@odata.nextLink` (guard < 20). NÃO usar `$select` junto de `userQuery` (dá 400) — ler do payload da view.
-- Auth 401/403 → reabrir aba, esperar, 1 retry; senão parar e avisar (não inventar dado).
+- Auth 401/403 no snippet → o Lucas recarrega a aba e roda de novo; se persistir, parar (não inventar dado).
+- `_meta.avisos` não vazio no JSON → reportar ao Lucas antes de montar.
 - Não persistir dados do CRM em arquivo além do necessário pro build.
 
 ## 100% automático (futuro)
