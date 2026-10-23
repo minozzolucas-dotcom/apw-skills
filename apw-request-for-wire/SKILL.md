@@ -10,6 +10,8 @@ description: Gera o Closing Statement (Excel no padrão exato do Nilton) + o e-m
 
 Base empírica: 85 closings reais jan–out/2026. Arquétipos e regras abaixo foram validados reproduzindo closings do Nilton centavo a centavo.
 
+**Arquivos de apoio** (`scripts/fill_closing.py`, `scripts/parse_isw.py`, `references/closing_template.xlsx`, `references/deal_schema.md`, `references/examples/`): se não estiverem na pasta desta skill, buscar no repo `minozzolucas-dotcom/apw-skills`, pasta `apw-request-for-wire/` (clonar/baixar). Sem o template, qualquer Closing Statement antigo do Nilton serve como `--template` — o script sobrescreve as células variáveis e reconstrói da linha 20 para baixo.
+
 ---
 
 ## 1. Fontes — hierarquia (quem manda em caso de conflito)
@@ -107,7 +109,7 @@ Tipo no nome do arquivo/assunto vem do **contrato**: Cessão → `Assignment of 
 **Assunto:** `Request for Wire - <L> - <Nome> - <Tipo>`
 **To:** Paulina Guerrero; Juan Carlos Martinez; Ryan Eppel; Luiz Alfredo; Fabiana Siviero
 **Cc:** Scott Langeland; Dan Hasselman; Esteban Castrejon; Eric Pape; Michelle Carvalho; Marcelina Silva; Lucas Minozzo; Daniel Presson; Guglielmo Noya; Marnique Richards-Ouellette; Diogo Bueno; Douglas Alves; Gracia Serrano; Daniel Romagnolo
-(endereços completos no `header.txt` gerado)
+(o `header.txt` gerado traz os nomes — o Outlook resolve os endereços; e-mails não ficam no repo, que é público)
 
 Corpo (o script gera em HTML, pronto para colar no Outlook):
 ```
