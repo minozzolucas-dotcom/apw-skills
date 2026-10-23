@@ -1,0 +1,51 @@
+{
+ "l_code": "L0000001",
+ "name": "Exemplo Wana",
+ "deal_type": "Surface Right",
+ "completion_date": "2026-09-30",
+ "funding_date": "2026-09-30",
+ "tenant": "Torres do Brasil",
+ "prorata": {
+  "from": "October",
+  "to": "December",
+  "completion": "January",
+  "months": 3,
+  "rent": 6875.71
+ },
+ "price": 640000,
+ "costs": {
+  "title": 1500,
+  "notary": 1500,
+  "recording": [
+   16000,
+   6000,
+   4500
+  ],
+  "legal": 3200,
+  "site_inspection": 2000
+ },
+ "custas_items": [
+  2000,
+  3200,
+  16000,
+  6000,
+  4500,
+  3000
+ ],
+ "custas_saldo_juridico": 34700,
+ "legal_aid": {
+  "amount": 0
+ },
+ "landlord_bank": {
+  "beneficiary": "BENEFICIÁRIO EXEMPLO LL",
+  "bank": "Banco Exemplo",
+  "bank_code": 0,
+  "account": "00000-0",
+  "branch": "0000",
+  "tax_id": "000.000.000-00"
+ },
+ "key_notes": "Investment opportunity is a <N>-year <Deal type> on a <towerco> <asset> with <carrier> as tenant located in <City (UF)>.",
+ "please_note": [
+  "APW has agreed to pay R$407 (approximately $80 USD, indexed annually) for annual property taxes."
+ ]
+}

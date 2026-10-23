@@ -1,0 +1,126 @@
+{
+ "l_code": "L0000003",
+ "name": "Exemplo Antonio",
+ "deal_type": "Surface Right",
+ "completion_date": "2026-02-27",
+ "tenant": "Torres do Brasil",
+ "prorata": null,
+ "price": 186000,
+ "row13": {
+  "kind": "capex",
+  "amount": 44000
+ },
+ "costs": {
+  "title": 1500,
+  "notary": 1500,
+  "recording": [
+   5580,
+   3850,
+   2500
+  ],
+  "legal": 4800,
+  "site_inspection": 2000
+ },
+ "custas_items": [
+  2000,
+  4800,
+  5580,
+  3850,
+  2500,
+  3000
+ ],
+ "legal_aid": {
+  "amount": 2000
+ },
+ "advance_payments": [
+  {
+   "label": "Payment in advance (August 2025)",
+   "amount": 6000
+  }
+ ],
+ "first_payment": 12400,
+ "ll_attached_lines": [
+  {
+   "label": "APW will pay technical material ",
+   "amount": 1621
+  }
+ ],
+ "installments": [
+  {
+   "label": "2º Installment payment due until 08/20/2026",
+   "amount": 12400
+  },
+  {
+   "label": "3º Installment payment due until 02/20/2027",
+   "amount": 12400
+  },
+  {
+   "label": "4º Installment payment due until 08/20/2027",
+   "amount": 12400
+  },
+  {
+   "label": "5º Installment payment due until 02/20/2028",
+   "amount": 12400
+  },
+  {
+   "label": "6º Installment payment due until 08/20/2028",
+   "amount": 12400
+  },
+  {
+   "label": "7º Installment payment due until 02/20/2029",
+   "amount": 12400
+  },
+  {
+   "label": "8º Installment payment due until 08/20/2029",
+   "amount": 12400
+  },
+  {
+   "label": "9º Installment payment due until 02/20/2030",
+   "amount": 12400
+  },
+  {
+   "label": "10º Installment payment due until 08/20/2030",
+   "amount": 12400
+  },
+  {
+   "label": "11º Installment payment due until 02/20/2031",
+   "amount": 12400
+  },
+  {
+   "label": "12º Installment payment due until 08/20/2031",
+   "amount": 12400
+  },
+  {
+   "label": "13º Installment payment due until 02/20/2032",
+   "amount": 12400
+  },
+  {
+   "label": "14º Installment payment due until 08/20/2032",
+   "amount": 12400
+  },
+  {
+   "label": "15º Installment payment due until 02/20/2033",
+   "amount": 12400
+  }
+ ],
+ "landlord_bank": [
+  {
+   "beneficiary": "BENEFICIÁRIO EXEMPLO LL1",
+   "bank": "Banco Exemplo",
+   "bank_code": 0,
+   "account": "00000-0",
+   "branch": "0000",
+   "tax_id": "000.000.000-00",
+   "note": "50% of each payment"
+  },
+  {
+   "beneficiary": "BENEFICIÁRIO EXEMPLO LL2",
+   "bank": "Banco Exemplo",
+   "bank_code": 0,
+   "account": "00000-0",
+   "branch": "0000",
+   "tax_id": "000.000.000-00",
+   "note": "50% of each payment"
+  }
+ ]
+}

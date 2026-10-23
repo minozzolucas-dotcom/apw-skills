@@ -1,0 +1,63 @@
+{
+ "l_code": "L0000006",
+ "name": "Exemplo Pelicano",
+ "deal_type": "Assignment of Rents",
+ "completion_date": "2026-09-30",
+ "tenant": "ATC",
+ "prorata": {
+  "from": "October",
+  "to": "November",
+  "completion": "December",
+  "months": 2,
+  "rent": 6004.77
+ },
+ "price": 550000,
+ "row13": {
+  "kind": "broker",
+  "amount": 12009.54,
+  "paid_in_wire": true
+ },
+ "costs": {
+  "title": 800,
+  "notary": 300,
+  "recording": [
+   2224.03,
+   1056.36
+  ],
+  "legal": 3200,
+  "site_inspection": 2000
+ },
+ "legal_aid": {
+  "amount": 2000
+ },
+ "first_payment": 275000,
+ "installments": [
+  {
+   "label": "2º Installment payment due until 10/20/2027",
+   "amount": 275000
+  }
+ ],
+ "landlord_bank": {
+  "beneficiary": "BENEFICIÁRIO EXEMPLO LL",
+  "bank": "Banco Exemplo",
+  "bank_code": 0,
+  "account": "00000-0",
+  "branch": "0000",
+  "tax_id": "000.000.000-00"
+ },
+ "other_payees": [
+  {
+   "label": "Total Amount due to Broker at closing",
+   "amount": 12009.54,
+   "carve_from_landlord": false,
+   "bank": {
+    "beneficiary": "BENEFICIÁRIO EXEMPLO TERCEIRO1",
+    "bank": "Banco Exemplo",
+    "bank_code": 0,
+    "account": "00000-0",
+    "branch": "0000",
+    "tax_id": "000.000.000-00"
+   }
+  }
+ ]
+}

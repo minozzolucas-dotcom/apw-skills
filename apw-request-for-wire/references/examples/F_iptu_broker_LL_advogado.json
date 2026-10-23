@@ -1,0 +1,81 @@
+{
+ "l_code": "L0000005",
+ "name": "Exemplo Lisandra",
+ "deal_type": "Surface Right",
+ "completion_date": "2026-04-30",
+ "tenant": "Torres do Brasil",
+ "prorata": {
+  "from": "May",
+  "to": "August",
+  "completion": "September",
+  "months": 4,
+  "rent": 2520.47
+ },
+ "price": 200000,
+ "costs": {
+  "title": 900,
+  "notary": 400,
+  "recording": [
+   4000,
+   3400.86,
+   1100
+  ],
+  "legal": 3200,
+  "site_inspection": 2000
+ },
+ "custas_items": [
+  2000,
+  3200,
+  4000,
+  3400.86,
+  1100,
+  900,
+  400
+ ],
+ "custas_saldo_juridico": 15000.86,
+ "legal_aid": {
+  "amount": 1000
+ },
+ "ll_attached_lines": [
+  {
+   "label": "According 3.3 of Surface Right - APW will pay the property tax (IPTU)",
+   "amount": 7367.05
+  }
+ ],
+ "landlord_bank": {
+  "beneficiary": "BENEFICIÁRIO EXEMPLO LL",
+  "bank": "Banco Exemplo",
+  "bank_code": 0,
+  "account": "00000-0",
+  "branch": "0000",
+  "tax_id": "000.000.000-00"
+ },
+ "other_payees": [
+  {
+   "label": "Total Amount due at closing",
+   "c_label": "Broker (Cl. 3.1 c)",
+   "amount": 15000,
+   "bank": {
+    "beneficiary": "BENEFICIÁRIO EXEMPLO TERCEIRO1",
+    "bank": "Banco Exemplo",
+    "bank_code": 0,
+    "account": "00000-0",
+    "branch": "0000",
+    "tax_id": "000.000.000-00"
+   }
+  },
+  {
+   "label": "Total Amount due at closing",
+   "c_label": "Site Owner Legal Fee/ Auxílio Advogado",
+   "amount": 1000,
+   "bank": {
+    "beneficiary": "BENEFICIÁRIO EXEMPLO TERCEIRO2",
+    "bank": "Banco Exemplo",
+    "bank_code": 0,
+    "account": "00000-0",
+    "branch": "0000",
+    "tax_id": "000.000.000-00"
+   }
+  }
+ ]
+}

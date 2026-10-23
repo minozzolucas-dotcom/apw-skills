@@ -1,0 +1,104 @@
+{
+ "l_code": "L0000002",
+ "name": "Exemplo Airton",
+ "deal_type": "Surface Right",
+ "completion_date": "2026-01-05",
+ "tenant": "Torres do Brasil",
+ "prorata": null,
+ "price": 250000,
+ "row13": {
+  "kind": "capex",
+  "amount": 35000
+ },
+ "costs": {
+  "title": 2500.61,
+  "notary": 200,
+  "recording": [
+   5000,
+   3676.17,
+   2300
+  ],
+  "legal": 3200,
+  "site_inspection": 2000
+ },
+ "custas_items": [
+  2000,
+  3200,
+  5000,
+  3676.17,
+  2300,
+  2500.61,
+  200
+ ],
+ "custas_saldo_juridico": 20876.78,
+ "legal_aid": {
+  "amount": 2000
+ },
+ "first_payment": 16666.62,
+ "landlord_bank": {
+  "beneficiary": "BENEFICIÁRIO EXEMPLO LL",
+  "bank": "Banco Exemplo",
+  "bank_code": 0,
+  "account": "00000-0",
+  "branch": "0000",
+  "tax_id": "000.000.000-00"
+ },
+ "installments": [
+  {
+   "label": "2º Installment payment due until 05/20/2026",
+   "amount": 16666.67
+  },
+  {
+   "label": "3º Installment payment due until 11/20/2027",
+   "amount": 16666.67
+  },
+  {
+   "label": "4º Installment payment due until 05/20/2027",
+   "amount": 16666.67
+  },
+  {
+   "label": "5º Installment payment due until 11/20/2028",
+   "amount": 16666.67
+  },
+  {
+   "label": "6º Installment payment due until 05/20/2028",
+   "amount": 16666.67
+  },
+  {
+   "label": "7º Installment payment due until 11/20/2029",
+   "amount": 16666.67
+  },
+  {
+   "label": "8º Installment payment due until 05/20/2029",
+   "amount": 16666.67
+  },
+  {
+   "label": "9º Installment payment due until 11/20/2030",
+   "amount": 16666.67
+  },
+  {
+   "label": "10º Installment payment due until 05/20/2030",
+   "amount": 16666.67
+  },
+  {
+   "label": "11º Installment payment due until 11/20/2031",
+   "amount": 16666.67
+  },
+  {
+   "label": "12º Installment payment due until 05/20/2031",
+   "amount": 16666.67
+  },
+  {
+   "label": "13º Installment payment due until 11/20/2032",
+   "amount": 16666.67
+  },
+  {
+   "label": "14º Installment payment due until 05/20/2032",
+   "amount": 16666.67
+  },
+  {
+   "label": "15º Installment payment due until 11/20/2033",
+   "amount": 16666.67
+  }
+ ]
+}

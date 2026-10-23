@@ -1,0 +1,49 @@
+{
+ "l_code": "L0000000",
+ "name": "Exemplo Vilareal",
+ "deal_type": "Assignment of Rents",
+ "completion_date": "2026-01-27",
+ "tenant": "ATC",
+ "prorata": {
+  "from": "February",
+  "to": "March",
+  "completion": "April",
+  "months": 2,
+  "rent": 4453.24
+ },
+ "price": 400000,
+ "costs": {
+  "title": 1750,
+  "notary": [
+   200,
+   1750
+  ],
+  "recording": [
+   2224.03,
+   2224.03
+  ],
+  "legal": 3200,
+  "site_inspection": 2000
+ },
+ "custas_items": [
+  2000,
+  3200,
+  2224.03,
+  2224.03,
+  3500,
+  200
+ ],
+ "custas_saldo_juridico": 15348.06,
+ "legal_aid": {
+  "amount": 2000
+ },
+ "landlord_bank": {
+  "beneficiary": "BENEFICIÁRIO EXEMPLO LL",
+  "bank": "Banco Exemplo",
+  "bank_code": 0,
+  "account": "00000-0",
+  "branch": "0000",
+  "tax_id": "000.000.000-00"
+ },
+ "key_notes": "Investment opportunity is a <N>-year <Deal type> on a <towerco> <asset> with <carrier> as tenant located in <City (UF)>."
+}

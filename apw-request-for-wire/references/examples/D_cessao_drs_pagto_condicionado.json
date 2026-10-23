@@ -1,0 +1,56 @@
+{
+ "l_code": "L0000004",
+ "name": "Exemplo Radio",
+ "deal_type": "Credit Assignment and Surface Right",
+ "completion_date": "2026-03-27",
+ "tenant": "ATC",
+ "prorata": {
+  "from": "April",
+  "to": "May",
+  "completion": "June",
+  "months": 2,
+  "rent": 971.18
+ },
+ "price": [
+  34000,
+  34000
+ ],
+ "costs": {
+  "title": [
+   150,
+   750
+  ],
+  "notary": [
+   56,
+   750
+  ],
+  "recording": [
+   1360,
+   1907.6,
+   884.44,
+   2217.99,
+   522.54
+  ],
+  "legal": 3200,
+  "site_inspection": 2000
+ },
+ "legal_aid": {
+  "amount": 2000
+ },
+ "first_payment": 34000,
+ "ll_attached_lines": [
+  {
+   "label": "2º payment conditioned to Public Deed Registration, date uncertain but expected between 60 to 180 days",
+   "amount": 34000,
+   "carve_from_landlord": false
+  }
+ ],
+ "landlord_bank": {
+  "beneficiary": "BENEFICIÁRIO EXEMPLO LL",
+  "bank": "Banco Exemplo",
+  "bank_code": 0,
+  "account": "00000-0",
+  "branch": "0000",
+  "tax_id": "000.000.000-00"
+ }
+}

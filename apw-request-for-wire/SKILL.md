@@ -1,365 +1,152 @@
 ---
 name: apw-request-for-wire
-description: >
-  Generates Request for Wire (RFW) emails for APW Brasil deal closings. Use SEMPRE que o Lucas mencionar
-  "request for wire", "RFW", "fazer o wire", "wire request", "pedir o wire", "mandar pro treasury",
-  "Nilton mandou a planilha", "closing statement", "completion statement", "fechar o wire do L",
-  "enviar para San Diego", "solicitar transferência de fechamento", ou enviar um Excel de
-  "Closing Statement" junto com uma ISW (Investment Worksheet) pedindo para preparar o e-mail de wire.
-  A skill lê a Closing Statement (planilha que o Nilton preenche com dados da minuta), extrai dados
-  do deal, instruções bancárias e custos reais de fechamento, compara linha a linha com os valores
-  projetados na ISW, e gera um e-mail formal em inglês para o treasury/Radius com toda a análise de
-  variância de closing costs. NÃO use para análise contratual (apw-telecom-real-estate-counsel),
-  dossiê de deal (apw-deal-dossier), ou submissão ao IC (apw-submission-writer).
+description: Gera o Closing Statement (Excel no padrão exato do Nilton) + o e-mail "Request for Wire" para a tesouraria/UW da Radius em San Diego, a partir da pasta de closing de um deal APW Brasil (custas do jurídico, contrato/minuta/aditivo, planilha de pagamento/provisionamento, ISW). Use quando o Lucas pedir "closing statement", "request for wire", "RFW", "pedido de wire", "monta o closing", "completion statement", ou mandar a pasta/arquivos de fechamento de um L. Cobre Cessão, DRS, Fee Simple, Cessão+DRS, parcelados, pagamento condicionado ao registro, CAPEX TBSA, broker, IPTU, advogado e terceiros como beneficiários.
 ---
 
-# APW Request for Wire
+# APW Request for Wire — Closing Statement + e-mail RFW
 
-You are the closing operations specialist for APW Brasil. When triggered, produce a clean, formal
-Request for Wire (RFW) email in English for the treasury/finance team at Radius (San Diego), plus
-the Excel Completion Statement in Nilton's exact layout.
+**Produto:** 1) `Closing Statement - <L> - <Nome> - <Tipo>.xlsx` idêntico ao do Nilton; 2) corpo do e-mail RFW (HTML) + assunto/destinatários.
+**Princípio:** o layout é SEMPRE o mesmo. Nunca construir planilha do zero — preencher o template (`references/closing_template.xlsx`, closing real do Nilton com variáveis limpas) via `scripts/fill_closing.py`. A versão antiga desta skill gerava layout próprio, custas da ISW e fórmulas sem valor — tudo isso é proibido.
+
+Base empírica: 85 closings reais jan–out/2026. Arquétipos e regras abaixo foram validados reproduzindo closings do Nilton centavo a centavo.
 
 ---
 
-## Step 0 — Ask upfront questions (before touching any file)
+## 1. Fontes — hierarquia (quem manda em caso de conflito)
 
-Before parsing anything, ask these questions in a single message. Most can be answered quickly
-and they prevent rework:
+| Dado | Fonte que manda | Nunca usar |
+|---|---|---|
+| Preço, pró-rata (meses e valor), auxílio advogado, forma de pagamento, parcelas e datas, terceiros pagos (broker do LL, IPTU, advogado), conta bancária | **Contrato mais recente** (aditivo > minuta "atualizada/limpa/final" > minuta; arquivos em `Old/` são histórico) | ISW, e-mail antigo |
+| Custas (linhas 14–17, 19) | **Tabela de custas do jurídico** — a **primeira** tabela do thread (a mais recente); "Custas atualizadas/Corrigidas" > "Custas" | ISW (é projeção) |
+| Dados bancários quando o contrato só diz "chave PIX"/"vide cláusula" | Planilha de Pagamento/Provisionamento (fora de `Old/`) ou Vendor Request Form | — |
+| Key Notes (narrativa do e-mail) | ISW, Submission Sheet, Key Notes (`scripts/parse_isw.py`) — verbatim | — |
+| Código L / nome | Nome da pasta / CRM | Código no nome de anexo (já veio L errado, já aconteceu) |
+| CAPEX TBSA | ISW linha "Other – Capex/TBSA Contribution" (se divergir do valor que o Lucas informar, perguntar) | — |
 
-1. **Tem alienação fiduciária?** Se sim, haverá um boleto bancário (1ª parcela) para quitar o
-   ônus antes do fechamento — isso vira um wire separado para o credor/banco.
-
-2. **Tem broker / intermediário?** Se sim, qual empresa e dados bancários? (O broker não entra
-   na tabela de itens — aparece só como beneficiário extra.)
-
-3. **Tem desconto de IPTU ou outro abatimento da 2ª parcela?** Qual o valor?
-
-4. **As custas finais (reais) estão disponíveis?** Se sim, pedir tabela ou print do jurídico.
-   Se não, a tabela de variância vai com [TO CONFIRM].
-
-5. **Qual a data prevista de pagamento?** (Expected Funding Date)
-
-6. **Contrato / minuta disponível?** Útil para confirmar cláusulas de pagamento e extrair
-   narrativa do deal se a ISW não tiver Key Notes.
+**Regra de ouro das custas:** somar os ITENS da tabela você mesmo. A linha "Saldo" do jurídico errou 5× em 10 meses (L962411, L943649, L1265019, L1108371, L1011589). O auxílio advogado vem do **contrato**, não da custas (L975597: custas listava R$2k de auxílio, contrato não tinha → F18 = 0).
 
 ---
 
-## Step 1 — Identify the input format
+## 2. Workflow
 
-There are two common formats for the "Closing Statement":
+1. **Inventário da pasta.** Listar arquivos; ignorar `Old/`; identificar contrato mais recente, custas mais recente, planilha de pagamento, ISW. Contrato em .docx → python-docx; PDF → pdftotext; PDF-imagem (pdftotext vazio) → ler visualmente.
+2. **Extrair** (seção 3) e **classificar o arquétipo** (seção 4).
+3. **Montar `deal.json`** (schema em `references/deal_schema.md`; exemplos reais em `references/examples/`).
+4. **Rodar:** `python3 scripts/fill_closing.py deal.json --out <pasta-saída>`
+5. **Ler a VALIDAÇÃO.** 🔴 = não entregar sem resolver. 🟡 = entregar com o alerta explícito no chat.
+6. **Conferir visualmente** (LibreOffice → PDF → PNG) antes de entregar.
+7. **Entregar:** xlsx + HTML do e-mail + header (assunto/To/Cc). No chat: Balance Due, valor ao LL, demais beneficiários, alertas, e o que ficou `[a confirmar]`.
 
-### Format A — Nilton's Full Completion Statement (standard)
-Filename pattern: `Closing Statement - Lxxxxxx - NOME - Deal Type.xlsx`
-- Sheet "Investment": header info, line items table (Deduct/Add columns), beneficiary blocks
-- Sheet "Check List": document checklist with status
-- Parse with `scripts/parse_closing_statement.py`
-
-### Format B — Simplified "Pagamento de Deal" (from Rayra or team)
-A simplified payment request form with a single sheet ("Folha1") containing:
-- Deal value, installment breakdown, discounts, net amount
-- Beneficiary name, bank, agency, account, CPF/CNPJ
-- Payment date
-
-When you see Format B, extract manually — the parser won't handle it. Read every non-empty
-cell and map to the RFW fields.
-
-**Regardless of format**, also check if the **contract (minuta/docx)** was provided — it
-contains: full deal terms (Cláusula 3.1), payment breakdown, property description, tenant info.
+Perguntar só o que não estiver nos documentos (ex.: Expected Funding Date se o e-mail de custas não trouxer "Data estimada para pagamento"; "Please note" com condições especiais).
 
 ---
 
-## Step 2 — Parse the Closing Statement
+## 3. Mapa de células (aba Investment) — fixo
 
-For **Format A**, run:
-```bash
-python3 scripts/parse_closing_statement.py "<path_to_closing_statement.xlsx>"
+| Célula | Conteúdo | Fonte / regra |
+|---|---|---|
+| C4 | `<L>_<Nome>` | pasta/CRM |
+| D6 | Proposed Completion Date (datetime) | "Data estimada para pagamento" do e-mail de custas |
+| J5 | Tenant = **quem paga o aluguel**: torreira (ATC, SBA, Torres do Brasil, Highline, IHS, Z-Sites, Winity) ou a operadora direta (TIM, Claro, Telefonica/VIVO); pode ser "Highline / TIM" | contrato |
+| K5 / L5 / M5 | 1º mês pró-rata / último mês / Deal Completion (= último + 1), em inglês | cláusula do pró-rata (b) |
+| N5 / O5 / P5 | nº meses (1 a 4) / aluguel mensal (item 12 do Quadro Resumo, do contrato MAIS RECENTE) / `=O5*N5` | contrato |
+| B12 / D12 | "Rent Apportionments" + meses listados / `=-P5` | sem pró-rata: K–M "-", N5=O5=0, D12=0 |
+| F11 | Preço (aceita centavos; deal combinado: `=34000+34000`) | item 5 do Quadro Resumo |
+| B13/F13/D13 | "CAPEX Contribution" (TBSA) **ou** "Intermediary / Broker Fee" (broker da APW) | ver seção 5 |
+| F14 Title | Manancial, Certidões, Levantamento Planialtimétrico/Georref., TopSat | custas |
+| F15 Notary | Rec. Firmas, Procuração, Traslado, Diligências, Agrimensor, e-notariado | custas |
+| F16 Recording | ITBI + Escritura + Registro(s) CDT/comarca + Emolumentos/Averbação — como **fórmula com os componentes** (`=2224.03+6118.11`) | custas |
+| F17 Legal | o "DD" da custas (3.200 é o comum; já foi 4.800, 5.300, 2.000, 0) | custas |
+| F18 | Auxílio advogado — **só F, sem D** (vai para o LL) | contrato (item 6 / cl. 1.3 ou 3.2) |
+| F19 | SIR (2.000 comum; já foi 3.000) | custas |
+| D14–D17, D19 | `=-F` (custas netam zero; são pagas por fora) | — |
+
+Linha combinada na custas ("Certidões/Diligências" R$3.500) → pode dividir `=3500/2` entre F14 e F15 ou pôr inteira numa linha — só o total importa. **Teste: F14+F15+F16+F17+F19 = soma dos itens da custas sem a linha de auxílio.**
+
+Linha 20 em diante é gerada pelo script: [linhas de sinal já pago] → `(-) Installments` → Sub-total → BALANCE DUE (`=SUM(Dsub,Fsub)`) → blocos de pagamento.
+
+**BALANCE DUE = tudo que a APW desembolsa NESTE closing** = Preço − Pró-rata + Auxílio − Sinal já pago − Parcelas futuras (+ broker APW pago no wire). A soma dos blocos "Total Amount due…" (sem as parcelas futuras) tem que ser igual ao Balance Due — o script valida.
+
+---
+
+## 4. Arquétipos (todos cobertos pelo script)
+
+| # | Arquétipo | Como fica | Exemplo |
+|---|---|---|---|
+| A | Cessão / DRS / Fee Simple à vista | G(LL) = `F11+D12+F18` | `examples/A_*.json` |
+| B | TBSA com CAPEX | linha 13 CAPEX (D=−F); resto igual A | L922851, L932401 |
+| C | **Parcelado** (DRS ou Cessão; 2 a 15 parcelas; semestral ou anual) | `first_payment` = 1ª parcela; cronograma "Nº Installment payment due until MM/DD/YYYY" (datas **literais do contrato**); D(Installments) = `−SUM(cronograma)`; G(LL) = `<1ª>+D12+F18` | `B_C_tbsa_capex_parcelado_15x.json`, L1256398, L968107, L975597 |
+| D | **2º pagamento condicionado ao registro** | linha "2º payment conditioned to Public Deed Registration, date uncertain but expected between X to Y days" (prazo copiado do contrato). Se há `first_payment` → não desconta do LL (`carve_from_landlord:false`); se não há → desconta | `D_cessao_drs_pagto_condicionado.json`, L929595, L1264288, L884023, L923086 |
+| E | **Sinal já pago** antes do closing | linha extra antes de Installments ("Payment in advance (Month YYYY)"), D negativo; entra somado na fórmula do LL | `E_sinal_pago_material_tecnico_2LL.json` |
+| F | **Beneficiários múltiplos** (Balance Due não muda, só é repartido) | bloco próprio por terceiro; G(LL) subtrai cada um | `F_iptu_broker_LL_advogado.json`, L1265019 (4 beneficiários) |
+
+Tipo no nome do arquivo/assunto vem do **contrato**: Cessão → `Assignment of Rents`; DRS → `Surface Right`; C&V/Promessa C&V → `Fee Simple Interest`; Cessão + DRS → `Credit Assignment and Surface Right`. (L975486 saiu "Surface Right" sendo Cessão — erro a não repetir.)
+
+---
+
+## 5. Beneficiários e terceiros — tabela de decisão
+
+| Situação (gatilho no contrato) | Tratamento |
+|---|---|
+| Auxílio "na conta indicada no item 8" | F18, vai junto com o LL, sem bloco |
+| Auxílio "será pago na seguinte conta bancária:" (advogado) | F18 + bloco próprio, C = "2K Site Owner Legal Fee" (ou valor), desconta do LL |
+| Alínea "c)/d) … será pago para a conta … em nome de [TERCEIRO]" (ex.: **Integra Energia** — broker do LL) | bloco próprio, desconta do LL; se metade é pós-registro, a 2ª metade vira `extra_lines` condicionada |
+| IPTU em atraso quitado pela APW (cl. 3.1/3.3: "desconto… débitos de IPTU") | linha anexa ao LL "According 3.x of Surface Right - APW will pay the property tax (IPTU)", desconta do LL (boleto) |
+| Material técnico / outro adiantamento a abater (aditivo) | linha anexa ao LL, desconta do LL |
+| **Broker da APW** pago por Vendor Form separado (MyTower etc.) | linha 13, D=−F, **sem bloco** |
+| **Broker da APW** pago no próprio wire (contrato de intermediação APW, ex. L1068138) | linha 13 **F sem D** + bloco "Total Amount due to Broker at closing" com `carve_from_landlord:false` → Balance Due inclui o broker (padrão corrigido pela UW no L1068138; ver `C_parcelado_broker_apw_no_wire.json`) |
+| Fornecedor (TopSat, Prefeitura/ITBI) | é custa: entra em F14/F16 netado; pago por Vendor Form; sem bloco |
+| Conta em nome de outra pessoa (cônjuge, filho anuente, administradora, conta de um bloco em condomínio de vários blocos (L367571)) | D(Beneficiary) = titular da conta conforme item 8 / dados bancários, mesmo ≠ LL |
+| Dois proprietários 50/50 | dois blocos bancários com nota "50% of each payment" |
+| Só PIX | repetir a chave nos campos sem dado |
+
+---
+
+## 6. E-mail RFW (formato que vai para o time todo)
+
+**Assunto:** `Request for Wire - <L> - <Nome> - <Tipo>`
+**To:** Paulina Guerrero; Juan Carlos Martinez; Ryan Eppel; Luiz Alfredo; Fabiana Siviero
+**Cc:** Scott Langeland; Dan Hasselman; Esteban Castrejon; Eric Pape; Michelle Carvalho; Marcelina Silva; Lucas Minozzo; Daniel Presson; Guglielmo Noya; Marnique Richards-Ouellette; Diogo Bueno; Douglas Alves; Gracia Serrano; Daniel Romagnolo
+(endereços completos no `header.txt` gerado)
+
+Corpo (o script gera em HTML, pronto para colar no Outlook):
 ```
-
-Output JSON:
-- `deal`: L-number, landlord, carrier/tenant, completion date, purchasing entity, deal type
-- `line_items`: label, deduct, add, net for each row
-- `pro_rations`: tenant, months, rent_per_month, total
-- `beneficiaries`: name, tax_id, bank, bank_code, branch, account, amount
-- `checklist`: document checklist status
-- `balance_due`: BALANCE DUE as shown in the Excel
-
-**Convention (Nilton's rule — critical):**
-> **BALANCE DUE = total amount APW needs to disburse at THIS closing.**
-> This equals: Purchase Price − Rent Apportionments − prior installments already paid.
->
-> The `(-) Installments` row is ONLY for payments already made before this closing
-> (e.g., a 1ª parcela paid months ago via bank transfer). If no prior payments exist,
-> the Installments row stays EMPTY (D=0 or blank).
->
-> The boleto (lien discharge), IPTU, and broker fees are NOT deducted from Balance Due.
-> They are listed as separate "Total Amount due" lines in the beneficiary section below,
-> and together they must sum to the Balance Due.
->
-> Example: Balance Due = R$ 93.600,00 → broken into:
-> - Total Amount due to Landlord: R$ 55.257,63
-> - 1ª Parcela Boleto SICREDI: R$ 38.222,46
-> - IPTU (APW pays on behalf of LL): R$ 119,91
-> Sum = R$ 93.600,00 ✅
-
----
-
-## Step 3 — Parse the ISW (if provided)
-
-**Important:** ISW files often come as `.xlsb` (Binary Excel). Use `pyxlsb`, not openpyxl:
-
-```bash
-pip install pyxlsb --break-system-packages -q
-python3 scripts/parse_isw.py "<path_to_isw.xlsb_or_xlsx>"
-```
-
-The `parse_isw.py` script handles both `.xlsb` and `.xlsx` automatically.
-
-**Pro-ration logic (critical — always read from the contract):**
-
-The pro-ration covers the months between signing and when the carrier updates its system
-to pay APW directly. The formula:
-
-```
-Deal Completion Month = Last pro-ration month + 1
-```
-
-Examples:
-- 2 months (Aug + Sep) → Deal Completion = **October**   (L1042188/ATC pattern)
-- 3 months (Aug + Sep + Oct) → Deal Completion = **November**  (Solange/Highline pattern)
-
-In the Excel pro-ration columns (J-P, row 5):
-- **K** = first pro-ration month
-- **L** = last pro-ration month (the one just before Deal Completion)
-- **M** = Deal Completion month (= L + 1) — this is what goes in the "Deal Completion" column
-- **N** = number of months
-- **O** = monthly rent amount
-- **P** = =O*N (total apportionment)
-
-In the Rent Apportionments label (B12): list ALL months covered (e.g., "August, September, October").
-In the Deduct cell (D12): negative total = -(N × monthly_rent).
-
-Always derive from the contract clause — it will say something like:
-"...pró-rata, constitui o tempo estimado... para a Locatária atualizar seu sistema interno..."
-and list the specific months. Count them → N months → Deal Completion = last month + 1.
-
-Key fields to extract from the ISW **Submission Sheet**:
-- `Transaction Name` (row 4, col E) → L-number + landlord
-- `Asset Type` + `Sub-Asset Type` (row 11) → tower type (monopole, lattice, etc.)
-- `Transaction Type` (row 12, col E) → Surface Right / Assignment of Rents
-- `Transaction Term` (row 13) → years
-- `Site City, State` (row 15) → location
-- **Key Notes** (row 12, col J) → deal narrative (use verbatim — it's already IC-approved text)
-- **Carrier/tenant** (Submission Sheet, rows 31+): tenant name, monthly rent, escalator
-- Projected closing costs (rows ~60-75): Title Work, Site Inspection, Third Party Fees,
-  Recording Fees, Outside Legal Fees, Broker/Agent Fees, Rent Proration
-
----
-
-## Step 4 — Identify all beneficiaries
-
-Wire recipients depend on the deal structure. Common patterns:
-
-| Beneficiary | When | Amount |
-|-------------|------|--------|
-| Landlord (LL) | Always | Balance Due (net installment after deductions) |
-| Credor Alienação Fiduciária | When property has lien to discharge | Boleto amount |
-| Broker / Intermediário (e.g., MyTower) | When deal had intermediary | Broker fee per agreement |
-| Advogado do LL | When LL legal fee was agreed | Agreed amount |
-
-**Broker handling — Nilton's standard (validated on 2 deals):**
-
-The broker fee **always goes in the items table as D = −F** (nets to zero, same as closing
-costs — does NOT affect Balance Due or the LL's payment). This is standard regardless of how
-the broker is paid.
-
-```
-Intermediary / Broker Fee    [source]    D: -2.600,00    F: 2.600,00
-```
-
-The broker is then paid **via a separate APW document** — it does NOT appear as a "Total
-Amount due" beneficiary block in the wire. There is no wire to the broker through this
-Completion Statement.
-
-If the user provides broker bank details, these go into the separate payment document — NOT
-into a beneficiary wire block in this Completion Statement.
-
-**Alienação Fiduciária / Boleto:**
-- The 1ª parcela goes to the BANK (not the landlord) to discharge the lien
-- It's recorded in `(-) Installments` in the Deduct column, reducing Balance Due
-- Payment method: Boleto Bancário (not TED) — treasury needs the boleto attached
-- The creditor's bank details may not be in the Closing Statement — ask or pull from contract
-
----
-
-## Step 5 — Build the variance table
-
-For each closing cost line item (excluding Purchase Price and Rent Apportionments):
-
-| Cost Item | ISW Projected (R$) | Actual (R$) | Delta (R$) | Delta (%) | Status |
-|-----------|-------------------|-------------|------------|-----------|--------|
-| Title Search / Certidões + DD | proj | actual | delta | % | ✅/⚠️ |
-| Notary / Escritura | | | | | |
-| Recording / Registro + ITBI | | | | | |
-| Legal Fees / Procuração + Diligências | | | | | |
-| Site Owner Legal Fee | | | | | |
-| Site Inspection / Vistoria | | | | | |
-| Broker / Agent Fees | | | | | |
-| **TOTAL** | total_proj | total_actual | delta | % | ✅/⚠️ |
-
-Status: ✅ = on budget or <5% over; ⚠️ = >5% over budget
-
-**Mapping ISW → actual costs** (actual costs often come from the legal team in a different
-breakdown — map by category, not label):
-- ISW "Title Work" → actual: Certidões + DD
-- ISW "Recording Fees" → actual: Registro + ITBI + Escritura (notary deed)
-- ISW "Third Party Fees" → actual: Procuração + Diligências + Levantamento Planialtimétrico
-- ISW "Site Inspection" → actual: SIR/Vistoria
-- ISW "Broker/Agent Fees" → actual: MyTower or other intermediary
-
-Note: actual costs often don't match ISW categories 1:1. Group intelligently and document
-the mapping in the email if there's a significant mismatch (especially if ⚠️).
-
----
-
-## Step 6 — Generate the email
-
-Email format (match Nilton's style exactly — clean text, no markdown):
-
----
-
-**SUBJECT:** Request for Wire – [L-number] – [LANDLORD NAME] – [Deal Type]
-
 Team,
 
-We are about to sign [Surface Right Deed / Assignment of Rents Agreement / etc.] pertaining
-to this transaction.
+We are about to sign **<Tipo>** pertaining to this transaction.
 
-Expected Funding Date   [Weekday], [Month]/[DD]/[YYYY]
+Expected Funding Date  <Weekday>, <Month>/<DD>/<YYYY>   ← negrito, vermelho, sublinhado, marca-texto amarelo
 
 Final Closing Costs:
+[tabela = faixa B2:G22 do Excel: cabeçalho, itens, Sub-total, BALANCE DUE]
 
-```
-COMPLETION STATEMENT
-AP WIRELESS BRASIL INVESTIMENTOS IMOBILIÁRIOS LTDA.
-PURCHASE OF: [L-number]_[LANDLORD NAME]
-CARRIER: [CARRIER / TENANT]
+**<Key Notes da ISW, verbatim>**
 
-PROPOSED COMPLETION DATE: [Weekday], [Date]
-LANDLORD: [LANDLORD NAME]
-PURCHASING ENTITY: AP Wireless Brasil Investimentos Imobiliários Ltda.
+Please note:                      ← só se houver condição especial
+- **<ex.: APW has agreed to pay R$407 (approximately $80 USD, indexed annually) for annual property taxes.>**
 
-ITEMS:                                                         Amount
-──────────────────────────────────────────────────────────── ──────────────
-Purchase Price / Valor Investimento                            R$ [amount]
-(-) Rent Apportionments [months] (period)                    (R$ [amount])
-(-) Installments – [describe: boleto + IPTU, etc.]           (R$ [amount])
-[cost lines that net to zero are optional to show]
-──────────────────────────────────────────────────────────── ──────────────
-BALANCE DUE (to Landlord):                                    R$ [balance]
-```
-
-[DEAL NARRATIVE — 2-3 sentences. Pull verbatim from ISW Key Notes field when available.
-Otherwise compose from deal data: tower type, carrier, location, coverage area, deal term.]
-
-[If closing costs are available:]
-All closing costs ([list items]) totaling R$ [X] were paid [outside of closing / included
-below]. [If any ⚠️ item: brief explanation of overage.]
-
-Once approved, funds should be directed to the following bank accounts:
-
-[For each beneficiary — numbered block:]
-
-[N] Total Amount due [to Landlord / 1ª Parcela / Broker Fee label]     R$ [AMOUNT]
-    [Bank Details label]:
-
-    Beneficiary:    [NAME]
-    Bank:           [BANK NAME]
-    Bank Code:      [CODE]
-    Agency:         [AGENCY]
-    Account:        [ACCOUNT]
-    Tax ID:         [CPF/CNPJ]
-    [Payment Method note if boleto: "Payment via boleto only — see attached"]
-
-[If any checklist item is ⏳ PENDING, flag it here:]
-⚠️ Pending before wire can be processed: [item]
+Once approved, funds should be directed to the following bank accounts:   ← vermelho, negrito
+[tabela = blocos de pagamento do Excel: valores e dados bancários]
 
 If you have any questions, please let us know.
-
-Best,
-Lucas Minozzo
-AP Wireless Brasil
+```
+No Outlook, o ideal é colar as faixas do próprio Excel (como o Nilton faz); o HTML é o equivalente pronto. Sem bloco "Notes", sem "TOTAL TO BE DISBURSED", sem "Payment Method" — não existem no padrão.
 
 ---
 
-## Step 7 — Generate the Excel Completion Statement
+## 7. Checklist antes de entregar (o script cobre os itens marcados com *)
 
-Generate the Excel file in Nilton's exact format. See `references/closing_statement_structure.md`
-for the full layout spec (column widths, row heights, fonts, number formats, merge cells).
+- [ ] * Soma dos blocos = Balance Due; valor ao LL > 0
+- [ ] * Custas F14:F17+F19 = itens da tabela (sem auxílio); divergência do "Saldo" do jurídico sinalizada
+- [ ] Auxílio = contrato (não custas)
+- [ ] Pró-rata: meses e aluguel do contrato mais recente; Deal Completion = último mês + 1
+- [ ] * Datas das parcelas em ordem, sem ano absurdo (já houve "05/22/2038"); copiadas do contrato
+- [ ] * D6 próximo de hoje (já houve D6 com ano 2023 e datas velhas de anexo)
+- [ ] Beneficiário/conta = item 8 do contrato (ou planilha de pagamento fora de `Old/`)
+- [ ] Tipo do arquivo coerente com o contrato
+- [ ] Bank Code conferido na aba "Cod. Bancos" (bancos raros: 070 BRB, 085 Ailos/Unilos, 003 Amazônia, 481 Superlógica, 748 Sicredi, 756 Sicoob)
 
-**Critical rules for the Excel:**
-
-0. **ALWAYS build the Rent Apportionment panel in columns J–P (rows 3–4)** — TENANT / FROM /
-   TO / DEAL COMPLETION / # MONTHS / RENT/MONTH / TOTAL, with `P4=N4*O4`. The "Rent
-   Apportionments" line item's Deduct cell must be `=-P4` (never a hardcoded number). This
-   panel is mandatory on every statement — omitting it is the most common formatting error.
-   Set page setup to landscape + fit-to-width + print_area B1:P<last> so it fits one page wide.
-
-0b. **A third-party slice of the Price (honorários/IPTU to a named beneficiary) is NOT a
-   Deduct line.** It partitions the Balance Due into a second beneficiary block. Balance Due
-   stays = Price − Apportionments + Ajuda; Beneficiary 1 = Balance − third_party; Beneficiary 2
-   = third_party; TOTAL = Balance. Re-listing it as a Deduct double-counts and is WRONG.
-
-1. **Always create a FRESH workbook** — never open and re-save an existing file (causes
-   file-lock errors). Copy the Cod. Bancos sheet data row-by-row from the source example.
-
-2. **Balance Due formula:** `=SUM(D21,F21)` where closing costs net to zero (D=-F for each
-   cost line), so Balance Due = Purchase Price − Rent Apportionments − Installments − IPTU.
-   This equals the LL wire amount only.
-
-3. **Broker fee:** Always populate "Intermediary / Broker Fee" row in the items table with
-   D = −[amount] and F = [amount] (nets to zero). Broker is NEVER a "Total Amount due"
-   beneficiary block — it is paid via a separate APW document. Example: `D13=-2600 / F13=2600`.
-
-4. **(-) Installments row:** Only put payments already made BEFORE this closing.
-   If the deal has no prior installments, leave D20 empty. The boleto and IPTU are NOT
-   installments — they are separate disbursements at closing.
-
-5. **Boleto (Alienação Fiduciária) and IPTU:** These appear as separate "Total Amount due"
-   lines in the beneficiary section (same column G, same red bold style), NOT in the
-   items table. Each gets its own G=[amount]. The LL's G amount = D22 − boleto − IPTU.
-
-6. **Filename:** `Closing Statement - [L-number] - [LANDLORD NAME] - [Deal Type].xlsx`
-   (match Nilton's naming convention exactly — same pattern as the source example)
-
-7. **Output path:** Save to `/sessions/sleepy-vigilant-clarke/[filename].xlsx` and
-   then use `present_files` to deliver (it copies to outputs automatically).
-
----
-
-## Important notes
-
-- **Number formatting:** Brazilian standard → `.` for thousands, `,` for decimals
-  (e.g., R$ 97.500,00). Negative amounts in parentheses: (R$ 3.900,00).
-
-- **ISW .xlsb files:** Use `pyxlsb` library. Install if needed:
-  `pip install pyxlsb --break-system-packages -q`
-
-- **Deal narrative:** The ISW Key Notes field (Submission Sheet, row 12, col J) contains
-  the IC-approved narrative — use it verbatim. It reads like:
-  "Investment opportunity is a 30-year Surface Right Deed on a Highline monopole with
-  4G TIM as tenant located in Barbosa Ferraz (PR). Site provides coverage to..."
-
-- **Boleto attachment:** Always remind Lucas to attach the SICREDI/bank boleto when there's
-  an alienação fiduciária — treasury can't process without it.
-
-- **Multiple beneficiaries:** Show each as a numbered block. Total all wire amounts at the
-  bottom: "TOTAL TO BE DISBURSED: R$ [sum]"
-
-- **Formula cells returning None:** openpyxl `data_only=True` only returns cached values.
-  If None, reconstruct: Balance Due = Purchase Price − Rent Apportionments − Installments.
-
-- **Checklist:** Only flag PENDING items (blank status). Ok and N/A are omitted from email.
-
-- **Closing costs paid outside of closing:** When the legal team sends actual costs separately
-  (as a table), include a variance section comparing each line to ISW projections. If closing
-  costs weren't paid at closing (paid directly as separate transactions), note this clearly.
+## 8. Decisões em aberto (defaults até o Lucas dizer o contrário)
+- Datas das parcelas: **literais do contrato** (a UW às vezes reescreve para dia 20 do mês seguinte — ela ajusta se quiser).
+- D6 em DRS: data estimada informada pelo jurídico.
+- CAPEX TBSA divergente entre ISW e informação do time: perguntar.
