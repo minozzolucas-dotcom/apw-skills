@@ -1,6 +1,6 @@
 ---
 name: apw-request-for-wire
-description: Gera o Closing Statement (Excel no padrão exato do Nilton) + o e-mail "Request for Wire" para a tesouraria/UW da Radius em San Diego, a partir da pasta de closing de um deal APW Brasil (custas do jurídico, contrato/minuta/aditivo, planilha de pagamento/provisionamento, ISW). Use quando o Lucas pedir "closing statement", "request for wire", "RFW", "pedido de wire", "monta o closing", "completion statement", ou mandar a pasta/arquivos de fechamento de um L. Cobre Cessão, DRS, Fee Simple, Cessão+DRS, parcelados, pagamento condicionado ao registro, CAPEX TBSA, broker, IPTU, advogado e terceiros como beneficiários.
+description: Gera o Closing Statement (Excel no padrão exato do Nilton) + o e-mail "Request for Wire" para a tesouraria/UW da Radius em San Diego, a partir da pasta de closing de um deal APW Brasil (custas do jurídico, contrato/minuta/aditivo, planilha de pagamento/provisionamento, ISW). Use quando o Lucas pedir "closing statement", "request for wire", "RFW", "pedido de wire", "fazer o wire", "monta o closing", "completion statement", "mandar pro treasury/San Diego", ou mandar a pasta/arquivos de fechamento de um L. Cobre Cessão, DRS, Fee Simple, Cessão+DRS, parcelados, pagamento condicionado ao registro, CAPEX TBSA, broker, IPTU, alienação fiduciária, advogado e terceiros como beneficiários. NÃO use para análise contratual (apw-telecom-real-estate-counsel), dossiê de deal (apw-deal-dossier) ou submissão ao IC (apw-submission-writer).
 ---
 
 # APW Request for Wire — Closing Statement + e-mail RFW
@@ -99,6 +99,7 @@ Tipo no nome do arquivo/assunto vem do **contrato**: Cessão → `Assignment of 
 | **Broker da APW** pago no próprio wire (contrato de intermediação APW, ex. L1068138) | linha 13 **F sem D** + bloco "Total Amount due to Broker at closing" com `carve_from_landlord:false` → Balance Due inclui o broker (padrão corrigido pela UW no L1068138; ver `C_parcelado_broker_apw_no_wire.json`) |
 | Fornecedor (TopSat, Prefeitura/ITBI) | é custa: entra em F14/F16 netado; pago por Vendor Form; sem bloco |
 | Conta em nome de outra pessoa (cônjuge, filho anuente, administradora, conta de um bloco em condomínio de vários blocos (L367571)) | D(Beneficiary) = titular da conta conforme item 8 / dados bancários, mesmo ≠ LL |
+| Alienação fiduciária / ônus a quitar no closing | bloco próprio "Total Amount due - 1a Parcela (Boleto <BANCO> - Alien. Fiduciária, Cl. x)" com banco credor e "N/A - via Boleto Bancário" na conta; desconta do LL. **Lembrar o Lucas de anexar o boleto ao RFW** — a tesouraria não processa sem |
 | Dois proprietários 50/50 | dois blocos bancários com nota "50% of each payment" |
 | Só PIX | repetir a chave nos campos sem dado |
 
