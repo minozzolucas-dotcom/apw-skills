@@ -148,6 +148,7 @@ No Outlook, o ideal é colar as faixas do próprio Excel (como o Nilton faz); o 
 - [ ] Beneficiário/conta = item 8 do contrato (ou planilha de pagamento fora de `Old/`)
 - [ ] Tipo do arquivo coerente com o contrato
 - [ ] Bank Code conferido na aba "Cod. Bancos" (bancos raros: 070 BRB, 085 Ailos/Unilos, 003 Amazônia, 481 Superlógica, 748 Sicredi, 756 Sicoob)
+- [ ] Alienação fiduciária → boleto anexado
 
 ## 8. Decisões em aberto (defaults até o Lucas dizer o contrário)
 - Datas das parcelas: **literais do contrato** (a UW às vezes reescreve para dia 20 do mês seguinte — ela ajusta se quiser).
