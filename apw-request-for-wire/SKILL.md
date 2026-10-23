@@ -36,7 +36,8 @@ Base empírica: 85 closings reais jan–out/2026. Arquétipos e regras abaixo fo
 4. **Rodar:** `python3 scripts/fill_closing.py deal.json --out <pasta-saída>`
 5. **Ler a VALIDAÇÃO.** 🔴 = não entregar sem resolver. 🟡 = entregar com o alerta explícito no chat.
 6. **Conferir visualmente** (LibreOffice → PDF → PNG) antes de entregar.
-7. **Entregar:** xlsx + HTML do e-mail + header (assunto/To/Cc). No chat: Balance Due, valor ao LL, demais beneficiários, alertas, e o que ficou `[a confirmar]`.
+7. **Entregar:** xlsx + HTML do e-mail. No chat: Balance Due, valor ao LL, demais beneficiários, alertas, e o que ficou `[a confirmar]`.
+8. **SEMPRE fechar a resposta com 3 blocos de código prontos para copiar e colar:** `Assunto`, `Para` e `Cc` — com os **endereços de e-mail completos** separados por `; ` (lista na memória do Lucas, arquivo `/areas/apw-deal-skills.md`; se não estiver acessível, pedir ao Lucas). Nunca entregar só os nomes.
 
 Perguntar só o que não estiver nos documentos (ex.: Expected Funding Date se o e-mail de custas não trouxer "Data estimada para pagamento"; "Please note" com condições especiais).
 
@@ -108,7 +109,7 @@ Tipo no nome do arquivo/assunto vem do **contrato**: Cessão → `Assignment of 
 **Assunto:** `Request for Wire - <L> - <Nome> - <Tipo>`
 **To:** Paulina Guerrero; Juan Carlos Martinez; Ryan Eppel; Luiz Alfredo; Fabiana Siviero
 **Cc:** Scott Langeland; Dan Hasselman; Esteban Castrejon; Eric Pape; Michelle Carvalho; Marcelina Silva; Lucas Minozzo; Daniel Presson; Guglielmo Noya; Marnique Richards-Ouellette; Diogo Bueno; Douglas Alves; Gracia Serrano; Daniel Romagnolo
-(o `header.txt` gerado traz os nomes — o Outlook resolve os endereços; e-mails não ficam no repo, que é público)
+(endereços completos NÃO ficam no repo, que é público — vêm da memória do Lucas e vão no chat em blocos de código, junto com o Assunto, em todo RFW)
 
 Corpo (o script gera em HTML, pronto para colar no Outlook):
 ```
